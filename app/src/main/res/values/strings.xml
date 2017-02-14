@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Fish Project</string>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="password_confirmation">Password Confirmation</string>
+    <string name="login">Log In</string>
+    <string name="signin">Sign In</string>
+
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="Sex">Sex</string>
+    <string name="Department">Department</string>
+
+    <string name="error_empty">Field mustn\'t be empty.</string>
+    <string name="error_equal_paswword">Password fields should be equal.</string>
 </resources>
