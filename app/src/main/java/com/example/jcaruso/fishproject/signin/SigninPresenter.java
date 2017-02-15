@@ -1,10 +1,11 @@
-package com.example.jcaruso.fishproject.login;
+package com.example.jcaruso.fishproject.signin;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
+import com.hannesdorfmann.mosby.mvp.MvpView;
 
-public class LoginPresenter extends MvpBasePresenter<LoginView> {
+public class SigninPresenter extends MvpBasePresenter<SigninView> {
 
-    public void doLogin(String username, String password) {
+    public void doSignin(String firstname, String lastname, String sex, String department, String username, String password) {
         if (isViewAttached())
             getView().showLoading();
 
@@ -19,14 +20,13 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     e.printStackTrace();
                 }
                 if (isViewAttached())
-                    getView().loginSuccessful();
+                    getView().signinSuccessful();
             }
         }.run();
     }
 
     public void onNewInstance() {
         if (isViewAttached())
-            getView().showLoginForm();
+            getView().showSigninForm();
     }
-
 }

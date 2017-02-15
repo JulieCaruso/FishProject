@@ -17,6 +17,14 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter> implements LoginView {
 
+    private static final int REQUEST_CODE = 1;
+
+    @BindView(R.id.login_username)
+    TextInputEditText mUsernameInput;
+
+    @BindView(R.id.login_password)
+    TextInputEditText mPasswordInput;
+
     @BindView(R.id.login_login_button)
     View mLoginButton;
 
@@ -35,11 +43,10 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         mSigninButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SigninActivity.class));
+                startActivityForResult(new Intent(LoginActivity.this, SigninActivity.class), REQUEST_CODE);
             }
         });
     }
-
 
 
     @NonNull
@@ -51,20 +58,18 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     private View.OnClickListener onClickLogin = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            TextInputEditText usernameInput = (TextInputEditText) findViewById(R.id.login_username);
-            TextInputEditText passwordInput = (TextInputEditText) findViewById(R.id.login_password);
             boolean valid = true;
 
-            String username = usernameInput.getText().toString();
+            String username = mUsernameInput.getText().toString();
             if (username.isEmpty()) {
                 valid = false;
-                usernameInput.setError(v.getContext().getString(R.string.error_empty));
+                mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
             }
 
-            String password = passwordInput.getText().toString();
+            String password = mPasswordInput.getText().toString();
             if (password.isEmpty()) {
                 valid = false;
-                passwordInput.setError(v.getContext().getString(R.string.error_empty));
+                mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
             }
 
             if (valid)
@@ -87,6 +92,8 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @Override
     public void showLoginForm() {
         ((LoginViewState) viewState).setShowLoginForm();
+        mUsernameInput.setError(null);
+        mPasswordInput.setError(null);
         mSigninButton.setVisibility(View.INVISIBLE);
         mLoginButton.setVisibility(View.VISIBLE);
     }
@@ -108,5 +115,14 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     public void loginSuccessful() {
         mLoginButton.setVisibility(View.VISIBLE);
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                showLoginForm();
+            }
+        }
     }
 }

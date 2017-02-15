@@ -49,7 +49,8 @@
                     android:id="@+id/login_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/username" />
+                    android:hint="@string/username"
+                    android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -104,8 +105,8 @@
                 android:layout_height="@dimen/space_xl"
                 android:layout_gravity="center"
                 android:indeterminate="true"
-                app:cpb_stroke_width="@dimen/circular_progress_bar_stroke_width"
-                app:cpb_color="@color/coral" />
+                app:cpb_color="@color/coral"
+                app:cpb_stroke_width="@dimen/circular_progress_bar_stroke_width" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/login_login_button"

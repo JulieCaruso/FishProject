@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/signin_activity"
     android:layout_width="match_parent"
@@ -33,6 +34,7 @@
                 android:id="@+id/signin_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/firstname" />
         </android.support.design.widget.TextInputLayout>
 
@@ -44,6 +46,7 @@
                 android:id="@+id/signin_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/lastname" />
         </android.support.design.widget.TextInputLayout>
 
@@ -66,6 +69,7 @@
                 android:id="@+id/signin_sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checkedButton="@+id/signin_sex_m"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -116,6 +120,7 @@
                 android:id="@+id/signin_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/username" />
         </android.support.design.widget.TextInputLayout>
 
@@ -143,15 +148,30 @@
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_l">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/signin_signin_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_l"
-            android:backgroundTint="@color/coral"
-            android:text="@string/signin"
-            android:textColor="@color/white" />
+            <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/signin_signin_progress"
+                android:layout_width="@dimen/space_xl"
+                android:layout_height="@dimen/space_xl"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                app:cpb_color="@color/coral"
+                app:cpb_stroke_width="@dimen/circular_progress_bar_stroke_width" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/signin_signin_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/coral"
+                android:text="@string/signin"
+                android:textColor="@color/white" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
