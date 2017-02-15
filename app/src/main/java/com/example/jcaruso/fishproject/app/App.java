@@ -9,7 +9,7 @@ import com.example.jcaruso.fishproject.login.LoginActivity;
 
 public class App extends Application {
 
-    private static final String USER = "SharedPreferences.USER";
+    public static final String USER = "SharedPreferences.USER";
 
     private static App sInstance;
     private SharedPreferences mSharedPreferences;
@@ -43,6 +43,8 @@ public class App extends Application {
     public static SharedPreferences getSharedPreferences() {
         return sInstance.mSharedPreferences;
     }
+
+    public static SharedPreferences.Editor editSharedPreferences() { return sInstance.mSharedPreferences.edit(); }
 
 
 }

@@ -1,15 +1,17 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
     defaultConfig {
-        applicationId "com.example.jcaruso.fishproject"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -24,21 +26,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(":fish-api")
-    // Appcompat v7
     compile 'com.android.support:appcompat-v7:25.1.1'
-    // Design
-    compile 'com.android.support:design:25.1.1'
-    // Mosby
-    compile 'com.hannesdorfmann.mosby:viewstate:2.0.1'
-    // Butterknife
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    // CircularProgressBar
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.0.0'
-    // Gson
+
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'javax.annotation:javax.annotation-api:1.2'
-
     testCompile 'junit:junit:4.12'
 }

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FishProject.iml" filepath="$PROJECT_DIR$/FishProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fish-api/fish-api.iml" filepath="$PROJECT_DIR$/fish-api/fish-api.iml" />
     </modules>
   </component>
 </project>

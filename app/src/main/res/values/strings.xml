@@ -10,6 +10,8 @@
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
     <string name="Sex">Sex</string>
+    <string name="Sex_M">M</string>
+    <string name="Sex_F">F</string>
     <string name="Department">Department</string>
 
     <string name="error_empty">Field mustn\'t be empty.</string>

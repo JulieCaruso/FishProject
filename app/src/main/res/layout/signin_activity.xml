@@ -78,13 +78,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/space_xl"
-                    android:text="M" />
+                    android:text="@string/Sex_M" />
 
                 <RadioButton
                     android:id="@+id/signin_sex_f"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="F" />
+                    android:text="@string/Sex_F" />
             </RadioGroup>
 
         </LinearLayout>
