@@ -210,7 +210,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
     public void showError(Throwable exception) {
         ((UpdateProfileViewState) viewState).setShowError(exception);
         enableDisableViewGroup(contentView, true);
-        mUpdateButton.setVisibility(View.VISIBLE);
+        animateToVisible(mUpdateButton);
         contentView.setVisibility(View.INVISIBLE);
         loadingView.setVisibility(View.INVISIBLE);
         errorView.setVisibility(View.VISIBLE);

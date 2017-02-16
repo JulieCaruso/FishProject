@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.department.add.AddDepartmentFragment;
 import com.example.jcaruso.fishproject.department.view.DepartmentsFragment;
 import com.example.jcaruso.fishproject.profile.update.UpdateProfileFragment;
 import com.example.jcaruso.fishproject.profile.view.ProfileFragment;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 fragment = new DepartmentsFragment();
                 break;
             case ADD_DEPARTMENT:
+                fragment = new AddDepartmentFragment();
                 break;
             case LOG_OUT:
                 finish();

@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.jcaruso.fishproject.utils.ViewUtils.animateToVisible;
+
 public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPresenter> implements SigninView {
 
     @BindView(R.id.signin_department)
@@ -138,14 +140,13 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
     @Override
     public void showError(Throwable exception) {
         ((SigninViewState) viewState).setShowError(exception);
-        mSigninButton.setVisibility(View.VISIBLE);
-
+        animateToVisible(mSigninButton);
     }
 
     @Override
     public void signinSuccessful() {
         ((SigninViewState) viewState).setShowSigninForm();
-        mSigninButton.setVisibility(View.VISIBLE);
+        animateToVisible(mSigninButton);
         setResult(RESULT_OK);
         finish();
     }

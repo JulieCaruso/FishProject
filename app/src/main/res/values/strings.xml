@@ -7,6 +7,7 @@
     <string name="login">Log In</string>
     <string name="signin">Sign In</string>
     <string name="update">Update</string>
+    <string name="add">Add</string>
 
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
@@ -16,8 +17,12 @@
     <string name="department">Department</string>
     <string name="employee_nb">%1$d employee</string>
     <string name="employees_nb">%1$d employees</string>
+    <string name="department_name">Department name</string>
+    <string name="department_address">Department address</string>
+    <string name="department_employee_nb">Department employee number</string>
 
     <string name="error_empty">Field mustn\'t be empty.</string>
+    <string name="error_not_a_number">Field must be a number.</string>
     <string name="error_equal_paswword">Password fields should be equal.</string>
 
     <string name="view_profile">View Profile</string>
