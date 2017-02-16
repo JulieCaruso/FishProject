@@ -1,5 +1,7 @@
 package com.example.jcaruso.fishproject.login;
 
+import android.os.Handler;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
@@ -10,18 +12,15 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
         // TODO: call request onSuccess:
 
-        new Runnable() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (isViewAttached())
+                if (isViewAttached()) {
                     getView().loginSuccessful();
+                }
             }
-        }.run();
+        }, 2000);
     }
 
     public void onNewInstance() {

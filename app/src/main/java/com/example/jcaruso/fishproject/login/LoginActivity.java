@@ -15,6 +15,8 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.jcaruso.fishproject.utils.ViewUtils.animateToVisible;
+
 public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresenter> implements LoginView {
 
     private static final int REQUEST_CODE = 1;
@@ -114,6 +116,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @Override
     public void loginSuccessful() {
         mLoginButton.setVisibility(View.VISIBLE);
+        animateToVisible(mLoginButton);
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 

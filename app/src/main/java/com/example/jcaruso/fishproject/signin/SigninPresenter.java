@@ -1,28 +1,27 @@
 package com.example.jcaruso.fishproject.signin;
 
+import android.os.Handler;
+
+import com.example.fishapi.model.Department;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import com.hannesdorfmann.mosby.mvp.MvpView;
 
 public class SigninPresenter extends MvpBasePresenter<SigninView> {
 
-    public void doSignin(String firstname, String lastname, String sex, String department, String username, String password) {
+    public void doSignin(String firstname, String lastname, String sex, Department department, String username, String password) {
         if (isViewAttached())
             getView().showLoading();
 
         // TODO: call request onSuccess:
 
-        new Runnable() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (isViewAttached())
+                if (isViewAttached()) {
                     getView().signinSuccessful();
+                }
             }
-        }.run();
+        }, 2000);
     }
 
     public void onNewInstance() {

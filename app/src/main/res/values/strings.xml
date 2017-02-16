@@ -6,6 +6,7 @@
     <string name="password_confirmation">Password Confirmation</string>
     <string name="login">Log In</string>
     <string name="signin">Sign In</string>
+    <string name="update">Update</string>
 
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
@@ -22,12 +23,4 @@
     <string name="departments_list">Departments List</string>
     <string name="add_department">Add a department</string>
     <string name="logout">Log Out</string>
-
-    <string-array name="drawer_items">
-        <item>@string/view_profile</item>
-        <item>@string/update_profile</item>
-        <item>@string/departments_list</item>
-        <item>@string/add_department</item>
-        <item>@string/logout</item>
-    </string-array>
 </resources>

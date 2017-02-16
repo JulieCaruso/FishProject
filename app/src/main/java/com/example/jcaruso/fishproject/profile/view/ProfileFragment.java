@@ -1,4 +1,4 @@
-package com.example.jcaruso.fishproject.profile;
+package com.example.jcaruso.fishproject.profile.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceFragment;
+import com.hannesdorfmann.mosby.mvp.viewstate.lce.LceViewState;
+import com.hannesdorfmann.mosby.mvp.viewstate.lce.MvpLceViewStateFragment;
+import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProfileFragment extends MvpLceFragment<SwipeRefreshLayout, User, ProfileView, ProfilePresenter> implements ProfileView, SwipeRefreshLayout.OnRefreshListener {
+public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout, User, ProfileView, ProfilePresenter> implements ProfileView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.profile_username)
     TextView mUsername;
@@ -34,6 +36,8 @@ public class ProfileFragment extends MvpLceFragment<SwipeRefreshLayout, User, Pr
     @BindView(R.id.profile_department)
     TextView mDepartment;
 
+    private User mUser;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +49,6 @@ public class ProfileFragment extends MvpLceFragment<SwipeRefreshLayout, User, Pr
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         contentView.setOnRefreshListener(this);
-        loadData(false);
     }
 
     @Override
@@ -61,11 +64,12 @@ public class ProfileFragment extends MvpLceFragment<SwipeRefreshLayout, User, Pr
 
     @Override
     public void setData(User user) {
-        mUsername.setText(user.getUsername());
-        mFirstname.setText(user.getFirstname());
-        mLastname.setText(user.getLastname());
-        mSex.setImageResource(user.getSex().equals(getString(R.string.sex_f)) ? R.drawable.ic_gender_female_48dp : R.drawable.ic_gender_male_48dp);
-        mDepartment.setText(user.getDepartment().getName());
+        mUser = user;
+        mUsername.setText(mUser.getUsername());
+        mFirstname.setText(mUser.getFirstname());
+        mLastname.setText(mUser.getLastname());
+        mSex.setImageResource(mUser.getSex().equals(getString(R.string.sex_f)) ? R.drawable.ic_gender_female_48dp : R.drawable.ic_gender_male_48dp);
+        mDepartment.setText(mUser.getDepartment().getName());
     }
 
     @Override
@@ -79,6 +83,12 @@ public class ProfileFragment extends MvpLceFragment<SwipeRefreshLayout, User, Pr
     }
 
     @Override
+    public LceViewState<User, ProfileView> createViewState() {
+        setRetainInstance(true);
+        return new RetainingLceViewState<>();
+    }
+
+    @Override
     public void showContent() {
         super.showContent();
         contentView.setRefreshing(false);
@@ -88,5 +98,10 @@ public class ProfileFragment extends MvpLceFragment<SwipeRefreshLayout, User, Pr
     public void showError(Throwable e, boolean pullToRefresh) {
         super.showError(e, pullToRefresh);
         contentView.setRefreshing(false);
+    }
+
+    @Override
+    public User getData() {
+        return mUser;
     }
 }

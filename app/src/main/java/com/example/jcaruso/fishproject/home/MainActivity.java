@@ -10,10 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.jcaruso.fishproject.R;
-import com.example.jcaruso.fishproject.profile.ProfileFragment;
+import com.example.jcaruso.fishproject.profile.update.UpdateProfileFragment;
+import com.example.jcaruso.fishproject.profile.view.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         add(new DrawerItem(R.drawable.ic_exit_to_app_black_48dp, R.string.logout));
     }};
 
-    //private String[] mDrawerItems;
-
     @BindView(R.id.main_toolbar)
     Toolbar mToolbar;
 
@@ -53,17 +51,11 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
 
     private DrawerAdapter mDrawerAdapter;
 
-    //@BindView(R.id.main_left_drawer)
-    //ListView mDrawerList;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout_withdrawer);
         ButterKnife.bind(this);
-
-        //mDrawerItems = getResources().getStringArray(R.array.drawer_items);
 
         mDrawerAdapter = new DrawerAdapter(this);
         mDrawerAdapter.setItems(mDrawerItems);
@@ -85,55 +77,22 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         });
 
         onItemSelected(1);
-
-        //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_item, mDrawerItems));
-        //mDrawerList.setOnItemClickListener(this);
     }
-
-    /*
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        selectItem(position);
-    }
-
-    private void selectItem(int position) {
-        Fragment fragment = new Fragment();
-        switch (position) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-        }
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_content_frame, fragment).commit();
-
-        //mDrawerList.setItemChecked(position, true);
-        //mDrawerLayout.closeDrawer(mDrawerList);
-    }
-    */
 
     @Override
     public void onItemSelected(int position) {
         setItemSelected(position);
 
-        Fragment fragment = new Fragment();
+        Fragment fragment = new ProfileFragment();
         switch (position) {
             // View profile
             case 1:
                 mProfile.setVisibility(View.INVISIBLE);
-                fragment = new ProfileFragment();
                 break;
             // Update profile
             case 2:
                 mProfile.setVisibility(View.VISIBLE);
+                fragment = new UpdateProfileFragment();
                 break;
             // Departments list
             case 3:

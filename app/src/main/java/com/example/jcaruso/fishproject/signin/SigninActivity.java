@@ -7,10 +7,10 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.example.fishapi.model.Department;
 import com.example.jcaruso.fishproject.R;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
@@ -79,10 +79,10 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
             String sex = "";
             switch (sexInput.getCheckedRadioButtonId()) {
                 case R.id.signin_sex_m:
-                    sex = ((RadioButton) findViewById(R.id.signin_sex_m)).getText().toString();
+                    sex = getString(R.string.sex_m);
                     break;
                 case R.id.signin_sex_f:
-                    sex = ((RadioButton) findViewById(R.id.signin_sex_f)).getText().toString();
+                    sex = getString(R.string.sex_f);
                     break;
             }
 
@@ -107,7 +107,7 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
             }
 
             if (valid) {
-                presenter.doSignin(firstname, lastname, sex, department, username, password);
+                presenter.doSignin(firstname, lastname, sex, new Department(department, "azer", 25, 5), username, password);
             }
         }
     };
