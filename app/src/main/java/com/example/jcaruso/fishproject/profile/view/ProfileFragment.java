@@ -19,7 +19,8 @@ import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout, User, ProfileView, ProfilePresenter> implements ProfileView, SwipeRefreshLayout.OnRefreshListener {
+public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout, User, ProfileView, ProfilePresenter>
+        implements ProfileView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.profile_username)
     TextView mUsername;
@@ -63,6 +64,11 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
     }
 
     @Override
+    public void loadData(boolean pullToRefresh) {
+        presenter.loadUser(pullToRefresh);
+    }
+
+    @Override
     public void setData(User user) {
         mUser = user;
         mUsername.setText(mUser.getUsername());
@@ -73,8 +79,8 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
     }
 
     @Override
-    public void loadData(boolean pullToRefresh) {
-        presenter.loadUser(pullToRefresh);
+    public User getData() {
+        return mUser;
     }
 
     @Override
@@ -98,10 +104,5 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
     public void showError(Throwable e, boolean pullToRefresh) {
         super.showError(e, pullToRefresh);
         contentView.setRefreshing(false);
-    }
-
-    @Override
-    public User getData() {
-        return mUser;
     }
 }

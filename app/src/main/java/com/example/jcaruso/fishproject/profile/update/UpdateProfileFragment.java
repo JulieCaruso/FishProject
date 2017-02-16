@@ -162,6 +162,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
 
     @Override
     public ViewState<UpdateProfileView> createViewState() {
+        setRetainInstance(true);
         return new UpdateProfileViewState();
     }
 

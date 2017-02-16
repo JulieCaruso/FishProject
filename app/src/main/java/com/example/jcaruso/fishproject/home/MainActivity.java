@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -22,6 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
+
+    private final static String STATE_SELECTED_ITEM = "MainActivity.STATE_SELECTED_ITEM";
 
     private List<DrawerItem> mDrawerItems = new ArrayList<DrawerItem>() {{
         // header
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     RecyclerView mDrawerRecycler;
 
     private DrawerAdapter mDrawerAdapter;
+    private int mSelectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,39 +80,45 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             }
         });
 
-        onItemSelected(1);
+        if (savedInstanceState == null)
+            onItemSelected(1);
+        else {
+            mSelectedItem = savedInstanceState.getInt(STATE_SELECTED_ITEM, 1);
+            setItemSelected();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_SELECTED_ITEM, mSelectedItem);
     }
 
     @Override
     public void onItemSelected(int position) {
-        setItemSelected(position);
+        mSelectedItem = position;
+        setItemSelected();
 
         Fragment fragment = new ProfileFragment();
         switch (position) {
             // View profile
             case 1:
-                mProfile.setVisibility(View.INVISIBLE);
                 break;
             // Update profile
             case 2:
-                mProfile.setVisibility(View.VISIBLE);
                 fragment = new UpdateProfileFragment();
                 break;
             // Departments list
             case 3:
-                mProfile.setVisibility(View.VISIBLE);
                 break;
             // Add a department
             case 4:
-                mProfile.setVisibility(View.VISIBLE);
                 break;
             // Log out
             case 5:
-                mProfile.setVisibility(View.VISIBLE);
                 finish();
                 break;
             default:
-                mProfile.setVisibility(View.VISIBLE);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -117,11 +127,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         mDrawerLayout.closeDrawer(mDrawerRecycler);
     }
 
-    private void setItemSelected(int position) {
+    private void setItemSelected() {
         for (DrawerItem item : mDrawerItems) {
             item.setSelected(false);
         }
-        mDrawerItems.get(position).setSelected(true);
+        mDrawerItems.get(mSelectedItem).setSelected(true);
         mDrawerAdapter.notifyDataSetChanged();
+        if (mSelectedItem == 1)
+            mProfile.setVisibility(View.INVISIBLE);
+        else
+            mProfile.setVisibility(View.VISIBLE);
     }
 }
