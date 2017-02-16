@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.fishapi.model.Department;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.home.MainActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -225,7 +226,6 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
         contentView.setVisibility(View.VISIBLE);
         loadingView.setVisibility(View.INVISIBLE);
         errorView.setVisibility(View.INVISIBLE);
-        // show success message
-        Toast.makeText(getContext(), "Successful update", Toast.LENGTH_SHORT).show();
+        startActivity(MainActivity.createIntent(getContext(), MainActivity.VIEW_PROFILE));
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.home.MainActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -120,7 +121,6 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
     public void addDepartmentSuccessful() {
         ((AddDepartmentViewState) viewState).setShowAddDepartmentForm();
         animateToVisible(mAddButton);
-        // show success message
-        Toast.makeText(getContext(), "Successful update", Toast.LENGTH_SHORT).show();
+        startActivity(MainActivity.createIntent(getContext(), MainActivity.DEPARTMENTS_LIST));
     }
 }

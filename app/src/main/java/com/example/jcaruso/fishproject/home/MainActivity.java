@@ -1,5 +1,7 @@
 package com.example.jcaruso.fishproject.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,10 +28,11 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
     private final static String STATE_SELECTED_ITEM = "MainActivity.STATE_SELECTED_ITEM";
+    private final static String EXTRA_NEXT_FRAGMENT_ID = "MainActivity.EXTRA_NEXT_FRAGMENT_ID";
 
-    private final static int VIEW_PROFILE = 1;
+    public final static int VIEW_PROFILE = 1;
     private final static int UPDATE_PROFILE = 2;
-    private final static int DEPARTMENTS_LIST = 3;
+    public final static int DEPARTMENTS_LIST = 3;
     private final static int ADD_DEPARTMENT = 4;
     private final static int LOG_OUT = 5;
 
@@ -141,5 +144,21 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             mProfile.setVisibility(View.INVISIBLE);
         else
             mProfile.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent != null) {
+            int nextFragmentId = intent.getIntExtra(EXTRA_NEXT_FRAGMENT_ID, 1);
+            onItemSelected(nextFragmentId);
+        }
+    }
+
+    public static Intent createIntent(Context context, int nextFragmentId) {
+        Intent nextFragment = new Intent(context, MainActivity.class);
+        nextFragment.putExtra(EXTRA_NEXT_FRAGMENT_ID, nextFragmentId);
+        return nextFragment;
     }
 }
