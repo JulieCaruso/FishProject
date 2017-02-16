@@ -14,6 +14,8 @@
     <string name="sex_m">M</string>
     <string name="sex_f">F</string>
     <string name="department">Department</string>
+    <string name="employee_nb">%1$d employee</string>
+    <string name="employees_nb">%1$d employees</string>
 
     <string name="error_empty">Field mustn\'t be empty.</string>
     <string name="error_equal_paswword">Password fields should be equal.</string>

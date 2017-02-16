@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.department.view.DepartmentsFragment;
 import com.example.jcaruso.fishproject.profile.update.UpdateProfileFragment;
 import com.example.jcaruso.fishproject.profile.view.ProfileFragment;
 
@@ -25,6 +25,12 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
     private final static String STATE_SELECTED_ITEM = "MainActivity.STATE_SELECTED_ITEM";
+
+    private final static int VIEW_PROFILE = 1;
+    private final static int UPDATE_PROFILE = 2;
+    private final static int DEPARTMENTS_LIST = 3;
+    private final static int ADD_DEPARTMENT = 4;
+    private final static int LOG_OUT = 5;
 
     private List<DrawerItem> mDrawerItems = new ArrayList<DrawerItem>() {{
         // header
@@ -76,12 +82,12 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemSelected(1);
+                onItemSelected(VIEW_PROFILE);
             }
         });
 
         if (savedInstanceState == null)
-            onItemSelected(1);
+            onItemSelected(VIEW_PROFILE);
         else {
             mSelectedItem = savedInstanceState.getInt(STATE_SELECTED_ITEM, 1);
             setItemSelected();
@@ -100,22 +106,18 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         setItemSelected();
 
         Fragment fragment = new ProfileFragment();
-        switch (position) {
-            // View profile
-            case 1:
+        switch (mSelectedItem) {
+            case VIEW_PROFILE:
                 break;
-            // Update profile
-            case 2:
+            case UPDATE_PROFILE:
                 fragment = new UpdateProfileFragment();
                 break;
-            // Departments list
-            case 3:
+            case DEPARTMENTS_LIST:
+                fragment = new DepartmentsFragment();
                 break;
-            // Add a department
-            case 4:
+            case ADD_DEPARTMENT:
                 break;
-            // Log out
-            case 5:
+            case LOG_OUT:
                 finish();
                 break;
             default:
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.main_content_frame, fragment).commit();
 
-        mDrawerLayout.closeDrawer(mDrawerRecycler);
+        if (mSelectedItem != LOG_OUT) mDrawerLayout.closeDrawer(mDrawerRecycler);
     }
 
     private void setItemSelected() {
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         }
         mDrawerItems.get(mSelectedItem).setSelected(true);
         mDrawerAdapter.notifyDataSetChanged();
-        if (mSelectedItem == 1)
+        if (mSelectedItem == VIEW_PROFILE)
             mProfile.setVisibility(View.INVISIBLE);
         else
             mProfile.setVisibility(View.VISIBLE);

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/department_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_l"
+        android:textAllCaps="true"
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/text_size_subtitle" />
+
+    <TextView
+        android:id="@+id/department_item_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_l"
+        android:paddingEnd="@dimen/space_l"
+        android:paddingBottom="@dimen/space_m"
+        android:textSize="@dimen/text_size_normal" />
+
+    <TextView
+        android:id="@+id/department_item_employee_nb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_l"
+        android:paddingEnd="@dimen/space_l"
+        android:paddingBottom="@dimen/space_l"
+        android:textSize="@dimen/text_size_medium" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_xxs"
+        android:paddingBottom="@dimen/space_l"
+        android:background="@color/divider_color"/>
+
+</LinearLayout>
