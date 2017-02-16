@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
 
-import com.example.jcaruso.fishproject.MainActivity;
+import com.example.jcaruso.fishproject.home.MainActivity;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.signin.SigninActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;

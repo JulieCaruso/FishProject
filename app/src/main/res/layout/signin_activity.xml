@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/space_s"
-                android:text="@string/Sex"
+                android:text="@string/sex"
                 android:textSize="@dimen/text_size_medium" />
 
             <RadioGroup
@@ -78,13 +78,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/space_xl"
-                    android:text="@string/Sex_M" />
+                    android:text="@string/sex_m" />
 
                 <RadioButton
                     android:id="@+id/signin_sex_f"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Sex_F" />
+                    android:text="@string/sex_f" />
             </RadioGroup>
 
         </LinearLayout>
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/space_3xl"
                 android:paddingStart="@dimen/space_s"
-                android:text="@string/Department"
+                android:text="@string/department"
                 android:textSize="@dimen/text_size_medium" />
 
             <Spinner

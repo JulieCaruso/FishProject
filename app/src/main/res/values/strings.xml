@@ -9,11 +9,25 @@
 
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
-    <string name="Sex">Sex</string>
-    <string name="Sex_M">M</string>
-    <string name="Sex_F">F</string>
-    <string name="Department">Department</string>
+    <string name="sex">Sex</string>
+    <string name="sex_m">M</string>
+    <string name="sex_f">F</string>
+    <string name="department">Department</string>
 
     <string name="error_empty">Field mustn\'t be empty.</string>
     <string name="error_equal_paswword">Password fields should be equal.</string>
+
+    <string name="view_profile">View Profile</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="departments_list">Departments List</string>
+    <string name="add_department">Add a department</string>
+    <string name="logout">Log Out</string>
+
+    <string-array name="drawer_items">
+        <item>@string/view_profile</item>
+        <item>@string/update_profile</item>
+        <item>@string/departments_list</item>
+        <item>@string/add_department</item>
+        <item>@string/logout</item>
+    </string-array>
 </resources>

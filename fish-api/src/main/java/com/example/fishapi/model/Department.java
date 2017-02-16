@@ -23,6 +23,22 @@ public class Department implements Parcelable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getEmployeeNb() {
+        return employeeNb;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     protected Department(Parcel in) {
         this.name = in.readString();
         this.address = in.readString();

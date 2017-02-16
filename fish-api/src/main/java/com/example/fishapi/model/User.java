@@ -35,6 +35,38 @@ public class User implements Parcelable {
         this.id = id;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     protected User(Parcel in) {
         this.firstname = in.readString();
         this.lastname = in.readString();
