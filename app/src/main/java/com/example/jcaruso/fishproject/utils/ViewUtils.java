@@ -3,21 +3,31 @@ package com.example.jcaruso.fishproject.utils;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 public class ViewUtils {
 
-    public static void enableDisableViewGroup(ViewGroup viewGroup, boolean enabled) {
-        int childCount = viewGroup.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View view = viewGroup.getChildAt(i);
-            view.setEnabled(enabled);
-            if (view instanceof ViewGroup) {
-                enableDisableViewGroup((ViewGroup) view, enabled);
+    /**
+     * Enables or disables view and all its children.
+     *
+     * @param view    view to either enable or disable
+     * @param enabled true to enable, false to disable
+     */
+    public static void enableDisableViewGroup(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                enableDisableViewGroup(child, enabled);
             }
         }
     }
 
+    /**
+     * Animates view from alpha 0 to alpha 1 in 500ms.
+     *
+     * @param view view to animate
+     */
     public static void animateToVisible(View view) {
         view.setAlpha(0);
         view.setVisibility(View.VISIBLE);
@@ -28,6 +38,11 @@ public class ViewUtils {
 
         private NestedScrollView mScrollView;
 
+        /**
+         * Runnable class implementing a full scroll down.
+         *
+         * @param scrollView NestedScrollView to scroll down
+         */
         public FullScrollDownRunnable(NestedScrollView scrollView) {
             mScrollView = scrollView;
         }

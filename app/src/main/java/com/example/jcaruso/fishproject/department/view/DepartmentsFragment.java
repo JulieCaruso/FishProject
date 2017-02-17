@@ -2,6 +2,7 @@ package com.example.jcaruso.fishproject.department.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +12,21 @@ import android.view.ViewGroup;
 
 import com.example.fishapi.model.Department;
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.home.MainActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.LceViewState;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.MvpLceViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLayout, List<Department>, DepartmentsView, DepartmentsPresenter>
         implements DepartmentsView, SwipeRefreshLayout.OnRefreshListener {
+
+    @BindView(R.id.departments_fab)
+    FloatingActionButton mFab;
 
     private DepartmentsAdapter mAdapter;
 
@@ -31,6 +39,7 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
 
         contentView.setOnRefreshListener(this);
 
@@ -38,6 +47,14 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new DepartmentsAdapter();
         recycler.setAdapter(mAdapter);
+        recycler.addOnScrollListener(onScrollListener);
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MainActivity.createIntent(getContext(), MainActivity.ADD_DEPARTMENT));
+            }
+        });
     }
 
     @Override
@@ -93,4 +110,19 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
         super.onDestroyView();
         mAdapter = null;
     }
+
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (dy > 0 && mFab.isShown())
+                mFab.hide();
+            else if (dy < 0 && !mFab.isShown())
+                mFab.show();
+        }
+    };
 }

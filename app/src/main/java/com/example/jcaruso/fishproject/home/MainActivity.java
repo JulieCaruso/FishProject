@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     public final static int VIEW_PROFILE = 1;
     private final static int UPDATE_PROFILE = 2;
     public final static int DEPARTMENTS_LIST = 3;
-    private final static int ADD_DEPARTMENT = 4;
+    public final static int ADD_DEPARTMENT = 4;
     private final static int LOG_OUT = 5;
 
     private List<DrawerItem> mDrawerItems = new ArrayList<DrawerItem>() {{
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     RecyclerView mDrawerRecycler;
 
     private DrawerAdapter mDrawerAdapter;
-    private int mSelectedItem;
+    private int mSelectedItem = VIEW_PROFILE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +89,11 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             }
         });
 
-        if (savedInstanceState == null)
-            onItemSelected(VIEW_PROFILE);
-        else {
+        // First time : do not add initial fragment to back stack
+        if (savedInstanceState == null) {
+            setItemSelected();
+            getSupportFragmentManager().beginTransaction().add(R.id.main_content_frame, new ProfileFragment()).commit();
+        } else {
             mSelectedItem = savedInstanceState.getInt(STATE_SELECTED_ITEM, 1);
             setItemSelected();
         }
@@ -128,9 +129,10 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             default:
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_content_frame, fragment).commit();
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
         if (mSelectedItem != LOG_OUT) mDrawerLayout.closeDrawer(mDrawerRecycler);
     }
 
