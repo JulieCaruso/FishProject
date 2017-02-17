@@ -1,7 +1,9 @@
 package com.example.jcaruso.fishproject.utils;
 
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 public class ViewUtils {
 
@@ -20,5 +22,19 @@ public class ViewUtils {
         view.setAlpha(0);
         view.setVisibility(View.VISIBLE);
         view.animate().alpha(1).setDuration(500);
+    }
+
+    public static class FullScrollDownRunnable implements Runnable {
+
+        private NestedScrollView mScrollView;
+
+        public FullScrollDownRunnable(NestedScrollView scrollView) {
+            mScrollView = scrollView;
+        }
+
+        @Override
+        public void run() {
+            mScrollView.fullScroll(View.FOCUS_DOWN);
+        }
     }
 }

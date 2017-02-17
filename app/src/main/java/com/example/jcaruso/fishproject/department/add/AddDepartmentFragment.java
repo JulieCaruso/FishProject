@@ -3,14 +3,19 @@ package com.example.jcaruso.fishproject.department.add;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.home.MainActivity;
+import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -40,10 +45,22 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         mAddButton.setOnClickListener(onClickAdd);
+
+        mEmployeeNbInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    NestedScrollView scrollView = (NestedScrollView) view.findViewById(R.id.add_department_fragment);
+                    scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
+                    onClickAdd.onClick(mAddButton);
+                }
+                return false;
+            }
+        });
     }
 
     private View.OnClickListener onClickAdd = new View.OnClickListener() {

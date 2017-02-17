@@ -3,20 +3,25 @@ package com.example.jcaruso.fishproject.profile.update;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fishapi.model.Department;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.home.MainActivity;
+import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -37,7 +42,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
     View errorView;
 
     @BindView(R.id.contentView)
-    ViewGroup contentView;
+    NestedScrollView contentView;
 
     @BindView(R.id.update_profile_firstname)
     TextInputEditText mFirstnameInput;
@@ -91,6 +96,17 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
         mDepartmentSpinner.setAdapter(adapter);
 
         mUpdateButton.setOnClickListener(onClickUpdate);
+
+        mPasswordConfirmationInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    contentView.post(new ViewUtils.FullScrollDownRunnable(contentView));
+                    onClickUpdate.onClick(mUpdateButton);
+                }
+                return false;
+            }
+        });
     }
 
     private View.OnClickListener onClickUpdate = new View.OnClickListener() {

@@ -4,14 +4,19 @@ package com.example.jcaruso.fishproject.signin;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.fishapi.model.Department;
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
@@ -45,6 +50,17 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
         mDepartmentSpinner.setAdapter(adapter);
 
         findViewById(R.id.signin_signin_button).setOnClickListener(onClickSignin);
+        ((TextInputEditText) findViewById(R.id.signin_password_confirmation)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.signin_activity);
+                    scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
+                    onClickSignin.onClick(mSigninButton);
+                }
+                return false;
+            }
+        });
     }
 
     @NonNull
