@@ -1,9 +1,11 @@
 package com.example.jcaruso.fishproject.department.view;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -26,12 +28,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLayout, List<Department>, DepartmentsView, DepartmentsPresenter>
-        implements DepartmentsView, SwipeRefreshLayout.OnRefreshListener {
+        implements DepartmentsView, SwipeRefreshLayout.OnRefreshListener, DepartmentsAdapter.OnStartDragListener {
 
     @BindView(R.id.departments_fab)
     FloatingActionButton mFab;
 
     private DepartmentsAdapter mAdapter;
+    private ItemTouchHelper mHelper;
 
     @Nullable
     @Override
@@ -48,11 +51,11 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
 
         final RecyclerView recycler = (RecyclerView) view.findViewById(R.id.departments_recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new DepartmentsAdapter();
+        mAdapter = new DepartmentsAdapter(this);
         recycler.setAdapter(mAdapter);
         recycler.addOnScrollListener(onScrollListener);
 
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+        mHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 final int fromPos = viewHolder.getAdapterPosition();
@@ -62,8 +65,7 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            }
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) { }
 
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
@@ -87,9 +89,15 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
                     holder.onItemClear();
                 }
             }
+
+            // only drag from handle
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return false;
+            }
         });
 
-        helper.attachToRecyclerView(recycler);
+        mHelper.attachToRecyclerView(recycler);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +105,11 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
                 startActivity(MainActivity.createIntent(getContext(), MainActivity.ADD_DEPARTMENT));
             }
         });
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mHelper.startDrag(viewHolder);
     }
 
     @Override

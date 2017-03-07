@@ -2,10 +2,15 @@ package com.example.jcaruso.fishproject.department.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +26,15 @@ import java.util.List;
 public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
 
     private List<Department> mItems = new ArrayList<>();
+    private OnStartDragListener mDragListener;
+
+    public interface OnStartDragListener {
+        void onStartDrag(RecyclerView.ViewHolder viewHolder);
+    };
+
+    public DepartmentsAdapter (OnStartDragListener listener) {
+        mDragListener = listener;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -28,13 +42,23 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        DepartmentItemViewHolder viewHolder = (DepartmentItemViewHolder) holder;
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final DepartmentItemViewHolder viewHolder = (DepartmentItemViewHolder) holder;
         Department department = mItems.get(position);
 
         viewHolder.mItem.setName(department.getName());
         viewHolder.mItem.setAddress(department.getAddress());
         viewHolder.mItem.setEmployeeNb(department.getEmployeeNb());
+        viewHolder.mHandle.setOnTouchListener(new View.OnTouchListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    mDragListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     public void setItems(List<Department> items) {
@@ -102,10 +126,12 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
     private class DepartmentItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         private DepartmentItemView mItem;
+        private ImageView mHandle;
 
         public DepartmentItemViewHolder(DepartmentItemView itemView) {
             super(itemView);
             mItem = itemView;
+            mHandle = (ImageView) itemView.findViewById(R.id.department_item_handle);
         }
 
         @Override
