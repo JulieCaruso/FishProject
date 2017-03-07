@@ -1,13 +1,12 @@
 package com.example.jcaruso.fishproject.department.view;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,13 +48,32 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
 
         contentView.setOnRefreshListener(this);
 
-        final RecyclerView recycler = (RecyclerView) view.findViewById(R.id.departments_recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        final boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
+        RecyclerView.LayoutManager layoutManager;
+        if (isTablet) {
+            layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+        } else {
+            layoutManager = new LinearLayoutManager(getActivity());
+        }
+
+        RecyclerView recycler = (RecyclerView) view.findViewById(R.id.departments_recycler);
+        recycler.setLayoutManager(layoutManager);
         mAdapter = new DepartmentsAdapter(this);
         recycler.setAdapter(mAdapter);
         recycler.addOnScrollListener(onScrollListener);
 
-        mHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+        mHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                int dragFlags;
+                if (isTablet)
+                    dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+                else
+                    dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                return makeMovementFlags(dragFlags, 0);
+            }
+
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 final int fromPos = viewHolder.getAdapterPosition();
@@ -65,7 +83,8 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) { }
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            }
 
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {

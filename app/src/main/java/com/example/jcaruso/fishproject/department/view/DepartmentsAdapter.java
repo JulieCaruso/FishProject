@@ -2,8 +2,6 @@ package com.example.jcaruso.fishproject.department.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
@@ -30,9 +28,11 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
 
     public interface OnStartDragListener {
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
-    };
+    }
 
-    public DepartmentsAdapter (OnStartDragListener listener) {
+    ;
+
+    public DepartmentsAdapter(OnStartDragListener listener) {
         mDragListener = listener;
     }
 
@@ -50,7 +50,6 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
         viewHolder.mItem.setAddress(department.getAddress());
         viewHolder.mItem.setEmployeeNb(department.getEmployeeNb());
         viewHolder.mHandle.setOnTouchListener(new View.OnTouchListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
