@@ -6,11 +6,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fishapi.model.Department;
+import com.example.fishapi.viewhelper.ItemTouchHelperAdapter;
+import com.example.fishapi.viewhelper.ItemTouchHelperViewHolder;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.home.MainActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.LceViewState;
@@ -43,11 +46,50 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
 
         contentView.setOnRefreshListener(this);
 
-        RecyclerView recycler = (RecyclerView) view.findViewById(R.id.departments_recycler);
+        final RecyclerView recycler = (RecyclerView) view.findViewById(R.id.departments_recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new DepartmentsAdapter();
         recycler.setAdapter(mAdapter);
         recycler.addOnScrollListener(onScrollListener);
+
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                final int fromPos = viewHolder.getAdapterPosition();
+                final int toPos = target.getAdapterPosition();
+                ((ItemTouchHelperAdapter) recyclerView.getAdapter()).onItemMove(fromPos, toPos);
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            }
+
+            @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+                super.onSelectedChanged(viewHolder, actionState);
+
+                contentView.setEnabled(!(actionState == ItemTouchHelper.ACTION_STATE_DRAG));
+
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    if (viewHolder instanceof ItemTouchHelperViewHolder) {
+                        ItemTouchHelperViewHolder holder = (ItemTouchHelperViewHolder) viewHolder;
+                        holder.onItemSelected();
+                    }
+                }
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+                if (viewHolder instanceof ItemTouchHelperViewHolder) {
+                    ItemTouchHelperViewHolder holder = (ItemTouchHelperViewHolder) viewHolder;
+                    holder.onItemClear();
+                }
+            }
+        });
+
+        helper.attachToRecyclerView(recycler);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
