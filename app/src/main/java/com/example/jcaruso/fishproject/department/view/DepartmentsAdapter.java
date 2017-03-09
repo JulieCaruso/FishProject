@@ -30,8 +30,6 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
     }
 
-    ;
-
     public DepartmentsAdapter(OnStartDragListener listener) {
         mDragListener = listener;
     }
@@ -93,7 +91,7 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
     public void onItemDismiss(int position) {
     }
 
-    private class DepartmentItemView extends LinearLayout {
+    public class DepartmentItemView extends LinearLayout {
 
         private TextView mName;
         private TextView mAddress;
@@ -111,6 +109,10 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
             mName.setText(name);
         }
 
+        public String getName() {
+            return mName.getText().toString();
+        }
+
         public void setAddress(String address) {
             mAddress.setText(address);
         }
@@ -122,9 +124,9 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
         }
     }
 
-    private class DepartmentItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    public class DepartmentItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
-        private DepartmentItemView mItem;
+        public DepartmentItemView mItem;
         private ImageView mHandle;
 
         public DepartmentItemViewHolder(DepartmentItemView itemView) {
