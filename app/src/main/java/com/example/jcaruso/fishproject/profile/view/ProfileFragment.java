@@ -88,6 +88,7 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
         loadData(true);
     }
 
+    @NonNull
     @Override
     public LceViewState<User, ProfileView> createViewState() {
         setRetainInstance(true);

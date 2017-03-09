@@ -23,17 +23,19 @@
                 android:id="@+id/main_drawer_button"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
+                android:contentDescription="@string/drawer"
                 android:src="@drawable/ic_menu_black_48dp"
                 android:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/main_user_profile"
-                android:layout_marginEnd="@dimen/space_xl"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/space_xl"
+                android:contentDescription="@string/view_profile"
                 android:src="@drawable/ic_account_circle_black_48dp"
-                android:tint="@color/white"/>
+                android:tint="@color/white" />
 
         </android.support.v7.widget.Toolbar>
 

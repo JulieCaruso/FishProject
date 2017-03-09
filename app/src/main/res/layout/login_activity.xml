@@ -24,6 +24,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/space_xl"
             android:layout_marginTop="@dimen/space_3xl"
+            android:contentDescription="@string/fish"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_launcher" />
 
@@ -38,6 +39,7 @@
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_marginEnd="@dimen/space_m"
+                android:contentDescription="@string/username_icon"
                 android:src="@drawable/ic_account_circle_black_48dp"
                 android:tint="@color/medium_grey" />
 
@@ -68,6 +70,7 @@
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_marginEnd="@dimen/space_m"
+                android:contentDescription="@string/password_icon"
                 android:src="@drawable/ic_lock_black_48dp"
                 android:tint="@color/medium_grey" />
 
@@ -115,9 +118,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/coral"
                 android:text="@string/login"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:backgroundTint="@color/coral" />
 
 
         </FrameLayout>

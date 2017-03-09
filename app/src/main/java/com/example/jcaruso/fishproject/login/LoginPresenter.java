@@ -2,8 +2,6 @@ package com.example.jcaruso.fishproject.login;
 
 import android.os.Handler;
 
-import com.example.jcaruso.fishproject.app.App;
-import com.example.jcaruso.fishproject.service.DataService;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
@@ -12,7 +10,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         if (isViewAttached())
             getView().showLoading();
 
-        DataService dataService = App.getBaseAppComponent().dataService();
+        //DataService dataService = App.getBaseAppComponent().dataService();
 
         // TODO: call request onSuccess:
 

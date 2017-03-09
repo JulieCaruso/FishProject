@@ -39,18 +39,15 @@ public class DrawerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (isPositionHeader(position)) {
-
-        } else {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (!isPositionHeader(position)) {
             final DrawerItemViewHolder viewHolder = (DrawerItemViewHolder) holder;
             DrawerItem drawerItem = mItems.get(position);
 
             viewHolder.mItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onItemSelected(position);
+                    mListener.onItemSelected(viewHolder.getAdapterPosition());
                 }
             });
 

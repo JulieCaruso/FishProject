@@ -23,6 +23,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/space_xl"
             android:layout_marginTop="@dimen/space_l"
+            android:contentDescription="@string/fish"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_launcher" />
 
@@ -172,9 +173,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/coral"
                 android:text="@string/signin"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:backgroundTint="@color/coral" />
 
         </FrameLayout>
 

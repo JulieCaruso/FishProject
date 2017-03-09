@@ -1,6 +1,5 @@
 package com.example.jcaruso.fishproject.dependency;
 
-import com.example.fishapi.service.RestService;
 import com.example.jcaruso.fishproject.service.DataService;
 
 import javax.inject.Singleton;

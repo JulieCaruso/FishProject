@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.department.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -131,6 +132,7 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
         mHelper.startDrag(viewHolder);
     }
 
+    @NonNull
     @Override
     public LceViewState<List<Department>, DepartmentsView> createViewState() {
         setRetainInstance(true);
@@ -147,6 +149,7 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
         return "Error, click to refresh";
     }
 
+    @NonNull
     @Override
     public DepartmentsPresenter createPresenter() {
         return new DepartmentsPresenter();

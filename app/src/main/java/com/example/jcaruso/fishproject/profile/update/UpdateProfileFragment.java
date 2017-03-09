@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.profile.update;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.NestedScrollView;
@@ -73,8 +74,6 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
 
     @BindView(R.id.update_profile_update_button)
     AppCompatButton mUpdateButton;
-
-    private User mUser;
 
     @Nullable
     @Override
@@ -169,14 +168,14 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
 
     @Override
     public void setData(User user) {
-        mUser = user;
-        mFirstnameInput.setText(mUser.getFirstname());
-        mLastnameInput.setText(mUser.getLastname());
-        mSexInput.check(mUser.getSex().equals(getContext().getString(R.string.sex_m)) ? R.id.update_profile_sex_m : R.id.update_profile_sex_f);
+        mFirstnameInput.setText(user.getFirstname());
+        mLastnameInput.setText(user.getLastname());
+        mSexInput.check(user.getSex().equals(getContext().getString(R.string.sex_m)) ? R.id.update_profile_sex_m : R.id.update_profile_sex_f);
         mDepartmentSpinner.setSelection(1);
-        mUsernameInput.setText(mUser.getUsername());
+        mUsernameInput.setText(user.getUsername());
     }
 
+    @NonNull
     @Override
     public ViewState<UpdateProfileView> createViewState() {
         setRetainInstance(true);
@@ -188,6 +187,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
         presenter.onNewInstance();
     }
 
+    @NonNull
     @Override
     public UpdateProfilePresenter createPresenter() {
         return new UpdateProfilePresenter();

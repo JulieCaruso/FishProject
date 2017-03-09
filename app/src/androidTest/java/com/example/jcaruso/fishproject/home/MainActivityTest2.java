@@ -1,9 +1,9 @@
 package com.example.jcaruso.fishproject.home;
 
 
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.login.LoginActivity;

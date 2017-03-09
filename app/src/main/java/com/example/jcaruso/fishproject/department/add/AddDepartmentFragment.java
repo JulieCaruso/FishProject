@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.department.add;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.NestedScrollView;
@@ -98,6 +99,7 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
         }
     };
 
+    @NonNull
     @Override
     public ViewState createViewState() {
         setRetainInstance(true);
@@ -109,6 +111,7 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
         presenter.onNewInstance();
     }
 
+    @NonNull
     @Override
     public AddDepartmentPresenter createPresenter() {
         return new AddDepartmentPresenter();

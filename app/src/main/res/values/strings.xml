@@ -15,8 +15,11 @@
     <string name="sex_m">M</string>
     <string name="sex_f">F</string>
     <string name="department">Department</string>
-    <string name="employee_nb">%1$d employee</string>
-    <string name="employees_nb">%1$d employees</string>
+    <plurals name="employee_nb">
+        <item quantity="zero">%1$d employee</item>
+        <item quantity="one">%1$d employee</item>
+        <item quantity="other">%1$d employees</item>
+    </plurals>
     <string name="department_name">Department name</string>
     <string name="department_address">Department address</string>
     <string name="department_employee_nb">Department employee number</string>
@@ -24,10 +27,19 @@
     <string name="error_empty">Field mustn\'t be empty.</string>
     <string name="error_not_a_number">Field must be a number.</string>
     <string name="error_equal_paswword">Password fields should be equal.</string>
+    <string name="error_retry">An error has occurred! click here to retry</string>
 
     <string name="view_profile">View Profile</string>
     <string name="update_profile">Update Profile</string>
     <string name="departments_list">Departments List</string>
     <string name="add_department">Add a department</string>
     <string name="logout">Log Out</string>
+
+    <!-- Content Description -->
+    <string name="fish">Fish</string>
+    <string name="move_item_handle">Move Item Handle</string>
+    <string name="drawer_item">Drawer Item</string>
+    <string name="username_icon">Username</string>
+    <string name="password_icon">Password</string>
+    <string name="drawer">Drawer</string>
 </resources>

@@ -40,7 +40,7 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     provided 'javax.annotation:jsr250-api:1.0'
 
-    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.google.code.gson:gson:2.7'
     compile 'javax.annotation:javax.annotation-api:1.2'
     testCompile 'junit:junit:4.12'
 }

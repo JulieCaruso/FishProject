@@ -4,61 +4,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/department_item_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:padding="@dimen/space_l"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_size_subtitle" />
 
-                <TextView
-                    android:id="@+id/department_item_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/space_l"
-                    android:textAllCaps="true"
-                    android:textColor="@color/dark_grey"
-                    android:textSize="@dimen/text_size_subtitle" />
+            <TextView
+                android:id="@+id/department_item_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/space_m"
+                android:paddingEnd="@dimen/space_l"
+                android:paddingStart="@dimen/space_l"
+                android:textSize="@dimen/text_size_normal" />
 
-                <TextView
-                    android:id="@+id/department_item_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/space_m"
-                    android:paddingEnd="@dimen/space_l"
-                    android:paddingStart="@dimen/space_l"
-                    android:textSize="@dimen/text_size_normal" />
-
-                <TextView
-                    android:id="@+id/department_item_employee_nb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/space_l"
-                    android:paddingEnd="@dimen/space_l"
-                    android:paddingStart="@dimen/space_l"
-                    android:textSize="@dimen/text_size_medium" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/department_item_handle"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_margin="@dimen/space_l"
-                android:layout_gravity="center"
-                android:scaleType="center"
-                android:src="@drawable/ic_menu_black_48dp"
-                android:tint="@color/dark_grey" />
-
+            <TextView
+                android:id="@+id/department_item_employee_nb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/space_l"
+                android:paddingEnd="@dimen/space_l"
+                android:paddingStart="@dimen/space_l"
+                android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/space_xxs"
-            android:background="@color/divider_color"
-            android:paddingBottom="@dimen/space_l" />
+        <ImageView
+            android:id="@+id/department_item_handle"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/space_l"
+            android:contentDescription="@string/move_item_handle"
+            android:scaleType="center"
+            android:src="@drawable/ic_menu_black_48dp"
+            android:tint="@color/dark_grey" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_xxs"
+        android:background="@color/divider_color"
+        android:paddingBottom="@dimen/space_l" />
 
 </LinearLayout>

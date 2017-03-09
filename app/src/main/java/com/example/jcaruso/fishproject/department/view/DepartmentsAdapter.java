@@ -118,9 +118,7 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
         }
 
         public void setEmployeeNb(int employeeNb) {
-            mEmployeeNb.setText(employeeNb > 1 ?
-                    getContext().getString(R.string.employees_nb, employeeNb)
-                    : getContext().getString(R.string.employee_nb, employeeNb));
+            mEmployeeNb.setText(getContext().getResources().getQuantityString(R.plurals.employee_nb, employeeNb, employeeNb));
         }
     }
 

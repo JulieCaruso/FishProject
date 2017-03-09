@@ -130,6 +130,7 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
         }
     };
 
+    @NonNull
     @Override
     public ViewState<SigninView> createViewState() {
         return new SigninViewState();

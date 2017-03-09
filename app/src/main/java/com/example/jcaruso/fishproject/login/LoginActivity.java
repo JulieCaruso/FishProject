@@ -98,6 +98,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         }
     };
 
+    @NonNull
     @Override
     public ViewState<LoginView> createViewState() {
         return new LoginViewState();
