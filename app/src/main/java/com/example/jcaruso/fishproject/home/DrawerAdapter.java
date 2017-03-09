@@ -34,7 +34,7 @@ public class DrawerAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEADER_VIEW_TYPE)
             return new DrawerHeaderViewHolder(new DrawerHeaderView(parent.getContext()));
-        else // if (viewType == DRAWER_ITEM_VIEW_TYPE)
+        else // DRAWER_ITEM_VIEW_TYPE
             return new DrawerItemViewHolder(new DrawerItemView(parent.getContext()));
     }
 
@@ -53,7 +53,7 @@ public class DrawerAdapter extends RecyclerView.Adapter {
 
             viewHolder.mItem.setImage(drawerItem.getIdResImage());
             viewHolder.mItem.setName(drawerItem.getIdResName());
-            viewHolder.mItem.setSelected(drawerItem.getSelected());
+            viewHolder.mItem.setSelection(drawerItem.getSelected());
         }
     }
 
@@ -72,7 +72,8 @@ public class DrawerAdapter extends RecyclerView.Adapter {
 
     public void setItems(List<DrawerItem> items) {
         mItems.clear();
-        if (items != null) mItems.addAll(items);
+        if (items != null)
+            mItems.addAll(items);
         notifyDataSetChanged();
     }
 
@@ -100,7 +101,7 @@ public class DrawerAdapter extends RecyclerView.Adapter {
             mName.setText(idRes);
         }
 
-        public void setSelected(boolean selected) {
+        public void setSelection(boolean selected) {
             if (selected)
                 mName.setTextColor(ContextCompat.getColor(getContext(), R.color.coral));
             else
@@ -128,11 +129,8 @@ public class DrawerAdapter extends RecyclerView.Adapter {
 
     private class DrawerHeaderViewHolder extends RecyclerView.ViewHolder {
 
-        private DrawerHeaderView mItem;
-
         public DrawerHeaderViewHolder(DrawerHeaderView itemView) {
             super(itemView);
-            mItem = itemView;
         }
     }
 }

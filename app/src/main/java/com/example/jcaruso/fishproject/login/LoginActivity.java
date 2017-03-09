@@ -38,6 +38,30 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @BindView(R.id.login_signin_button)
     View mSigninButton;
 
+    private View.OnClickListener onClickLogin = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            boolean valid = true;
+
+            String username = mUsernameInput.getText().toString();
+            if (username.isEmpty()) {
+                valid = false;
+                mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
+            }
+
+            String password = mPasswordInput.getText().toString();
+            if (password.isEmpty()) {
+                valid = false;
+                mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
+            }
+
+            if (valid)
+                presenter.doLogin(username, password);
+            else
+                showError(new Exception(""));
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,30 +97,6 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     public LoginPresenter createPresenter() {
         return new LoginPresenter();
     }
-
-    private View.OnClickListener onClickLogin = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean valid = true;
-
-            String username = mUsernameInput.getText().toString();
-            if (username.isEmpty()) {
-                valid = false;
-                mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String password = mPasswordInput.getText().toString();
-            if (password.isEmpty()) {
-                valid = false;
-                mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            if (valid)
-                presenter.doLogin(username, password);
-            else
-                showError(new Exception(""));
-        }
-    };
 
     @NonNull
     @Override
@@ -140,10 +140,8 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                showLoginForm();
-            }
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            showLoginForm();
         }
     }
 }

@@ -8,9 +8,6 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 public class ProfilePresenter extends MvpBasePresenter<ProfileView> {
 
-    public ProfilePresenter() {
-    }
-
     public void loadUser(boolean pullToRefresh) {
         if (isViewAttached()) {
             getView().showLoading(pullToRefresh);

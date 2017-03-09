@@ -60,7 +60,8 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
 
     public void setItems(List<Department> items) {
         mItems.clear();
-        if (items != null) mItems.addAll(items);
+        if (items != null)
+            mItems.addAll(items);
         notifyDataSetChanged();
     }
 
@@ -85,10 +86,6 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
             }
         }
         notifyItemMoved(fromPosition, toPosition);
-    }
-
-    @Override
-    public void onItemDismiss(int position) {
     }
 
     public class DepartmentItemView extends LinearLayout {
@@ -124,13 +121,17 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
 
     public class DepartmentItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
-        public DepartmentItemView mItem;
+        private DepartmentItemView mItem;
         private ImageView mHandle;
 
         public DepartmentItemViewHolder(DepartmentItemView itemView) {
             super(itemView);
             mItem = itemView;
             mHandle = (ImageView) itemView.findViewById(R.id.department_item_handle);
+        }
+
+        public DepartmentItemView getItem() {
+            return mItem;
         }
 
         @Override

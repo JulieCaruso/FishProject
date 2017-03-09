@@ -128,7 +128,7 @@ public class MainActivityTest {
 
             @Override
             protected boolean matchesSafely(DepartmentsAdapter.DepartmentItemViewHolder item) {
-                return item.mItem.getName().equalsIgnoreCase(title);
+                return item.getItem().getName().equalsIgnoreCase(title);
             }
         };
     }

@@ -7,6 +7,7 @@ public class DrawerItem {
     private boolean mSelected;
 
     public DrawerItem() {
+        // used for header
     }
 
     public DrawerItem(int idResImage, int idResName) {

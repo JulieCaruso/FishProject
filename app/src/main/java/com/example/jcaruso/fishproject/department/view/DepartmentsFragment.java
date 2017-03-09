@@ -36,6 +36,16 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
     private DepartmentsAdapter mAdapter;
     private ItemTouchHelper mHelper;
 
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (dy > 0 && mFab.isShown())
+                mFab.hide();
+            else if (dy < 0 && !mFab.isShown())
+                mFab.show();
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,19 +95,18 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // swipe not implemented
             }
 
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
                 super.onSelectedChanged(viewHolder, actionState);
 
-                contentView.setEnabled(!(actionState == ItemTouchHelper.ACTION_STATE_DRAG));
+                contentView.setEnabled(actionState != ItemTouchHelper.ACTION_STATE_DRAG);
 
-                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                    if (viewHolder instanceof ItemTouchHelperViewHolder) {
-                        ItemTouchHelperViewHolder holder = (ItemTouchHelperViewHolder) viewHolder;
-                        holder.onItemSelected();
-                    }
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE && viewHolder instanceof ItemTouchHelperViewHolder) {
+                    ItemTouchHelperViewHolder holder = (ItemTouchHelperViewHolder) viewHolder;
+                    holder.onItemSelected();
                 }
             }
 
@@ -187,19 +196,4 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
         super.onDestroyView();
         mAdapter = null;
     }
-
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if (dy > 0 && mFab.isShown())
-                mFab.hide();
-            else if (dy < 0 && !mFab.isShown())
-                mFab.show();
-        }
-    };
 }

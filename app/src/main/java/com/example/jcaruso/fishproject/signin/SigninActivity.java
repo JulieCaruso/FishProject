@@ -20,7 +20,7 @@ import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,40 +34,6 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
 
     @BindView(R.id.signin_signin_button)
     AppCompatButton mSigninButton;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.signin_activity);
-        ButterKnife.bind(this);
-
-        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, new ArrayList<String>() {{
-            add("ADM");
-            add("DMA");
-            add("MDA");
-        }});
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        mDepartmentSpinner.setAdapter(adapter);
-
-        findViewById(R.id.signin_signin_button).setOnClickListener(onClickSignin);
-        ((TextInputEditText) findViewById(R.id.signin_password_confirmation)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.signin_activity);
-                    scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
-                    onClickSignin.onClick(mSigninButton);
-                }
-                return false;
-            }
-        });
-    }
-
-    @NonNull
-    @Override
-    public SigninPresenter createPresenter() {
-        return new SigninPresenter();
-    }
 
     private View.OnClickListener onClickSignin = new View.OnClickListener() {
         @Override
@@ -94,15 +60,8 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
                 lastnameInput.setError(v.getContext().getString(R.string.error_empty));
             }
 
-            String sex = "";
-            switch (sexInput.getCheckedRadioButtonId()) {
-                case R.id.signin_sex_m:
-                    sex = getString(R.string.sex_m);
-                    break;
-                case R.id.signin_sex_f:
-                    sex = getString(R.string.sex_f);
-                    break;
-            }
+            String sex = sexInput.getCheckedRadioButtonId() == R.id.signin_sex_m ?
+                    getString(R.string.sex_m) : getString(R.string.sex_f);
 
             String department = departmentInput.getSelectedItem().toString();
 
@@ -129,6 +88,39 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
             }
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.signin_activity);
+        ButterKnife.bind(this);
+
+        ArrayAdapter adapter = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                Arrays.asList(new String[]{"ADM", "DMA", "MDA"}));
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        mDepartmentSpinner.setAdapter(adapter);
+
+        findViewById(R.id.signin_signin_button).setOnClickListener(onClickSignin);
+        ((TextInputEditText) findViewById(R.id.signin_password_confirmation)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.signin_activity);
+                    scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
+                    onClickSignin.onClick(mSigninButton);
+                }
+                return false;
+            }
+        });
+    }
+
+    @NonNull
+    @Override
+    public SigninPresenter createPresenter() {
+        return new SigninPresenter();
+    }
 
     @NonNull
     @Override

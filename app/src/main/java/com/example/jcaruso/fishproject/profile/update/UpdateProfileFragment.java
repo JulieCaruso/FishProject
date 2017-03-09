@@ -26,7 +26,7 @@ import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,39 +75,6 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
     @BindView(R.id.update_profile_update_button)
     AppCompatButton mUpdateButton;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.update_profile_fragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-
-        ArrayAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, new ArrayList<String>() {{
-            add("ADM");
-            add("DMA");
-            add("MDA");
-        }});
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        mDepartmentSpinner.setAdapter(adapter);
-
-        mUpdateButton.setOnClickListener(onClickUpdate);
-
-        mPasswordConfirmationInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    contentView.post(new ViewUtils.FullScrollDownRunnable(contentView));
-                    onClickUpdate.onClick(mUpdateButton);
-                }
-                return false;
-            }
-        });
-    }
-
     private View.OnClickListener onClickUpdate = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -125,15 +92,8 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
                 mLastnameInput.setError(v.getContext().getString(R.string.error_empty));
             }
 
-            String sex = "";
-            switch (mSexInput.getCheckedRadioButtonId()) {
-                case R.id.update_profile_sex_m:
-                    sex = getContext().getString(R.string.sex_m);
-                    break;
-                case R.id.update_profile_sex_f:
-                    sex = getContext().getString(R.string.sex_f);
-                    break;
-            }
+            String sex = mSexInput.getCheckedRadioButtonId() == R.id.update_profile_sex_m ?
+                    getString(R.string.sex_m) : getString(R.string.sex_f);
 
             String department = mDepartmentSpinner.getSelectedItem().toString();
 
@@ -160,6 +120,38 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
             }
         }
     };
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.update_profile_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+
+        ArrayAdapter adapter = new ArrayAdapter<>(getContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                Arrays.asList(new String[]{"ADM", "DMA", "MDA"}));
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        mDepartmentSpinner.setAdapter(adapter);
+
+        mUpdateButton.setOnClickListener(onClickUpdate);
+
+        mPasswordConfirmationInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    contentView.post(new ViewUtils.FullScrollDownRunnable(contentView));
+                    onClickUpdate.onClick(mUpdateButton);
+                }
+                return false;
+            }
+        });
+    }
 
     @Override
     public void loadData() {

@@ -42,15 +42,6 @@ public class LoginActivityTest {
 
     @Test
     public void loginActivityTest() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.login_login_button), withText("Log In"), isDisplayed()));
         appCompatButton.perform(click());
@@ -90,9 +81,9 @@ public class LoginActivityTest {
         onView(withId(R.id.login_login_button))
                 .perform(click());
 
-        // wait for 2s of login click and 2s of profileFragment loading + 1s extra
+        // wait for 2s of login click + 1s extra
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

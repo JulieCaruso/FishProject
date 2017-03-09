@@ -4,10 +4,10 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 public class UpdateProfileViewState implements ViewState<UpdateProfileView> {
 
-    private final int STATE_SHOW_UPDATE_PROFILE_FORM = 0;
-    private final int STATE_SHOW_LOADING_UPDATE_PROFILE_FORM = 1;
-    private final int STATE_SHOW_LOADING_UPDATE_PROFILE = 2;
-    private final int STATE_SHOW_ERROR = 3;
+    private static final int STATE_SHOW_UPDATE_PROFILE_FORM = 0;
+    private static final int STATE_SHOW_LOADING_UPDATE_PROFILE_FORM = 1;
+    private static final int STATE_SHOW_LOADING_UPDATE_PROFILE = 2;
+    private static final int STATE_SHOW_ERROR = 3;
 
     private int state = STATE_SHOW_UPDATE_PROFILE_FORM;
     private Throwable mException;
@@ -27,6 +27,7 @@ public class UpdateProfileViewState implements ViewState<UpdateProfileView> {
             case STATE_SHOW_ERROR:
                 view.showError(mException);
                 break;
+            default:
         }
     }
 

@@ -4,9 +4,9 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 public class SigninViewState implements ViewState<SigninView> {
 
-    private final int STATE_SHOW_SIGNIN_FORM = 0;
-    private final int STATE_SHOW_LOADING = 1;
-    private final int STATE_SHOW_ERROR = 2;
+    private static final int STATE_SHOW_SIGNIN_FORM = 0;
+    private static final int STATE_SHOW_LOADING = 1;
+    private static final int STATE_SHOW_ERROR = 2;
 
     private int state = STATE_SHOW_SIGNIN_FORM;
     private Throwable mException;
@@ -23,6 +23,7 @@ public class SigninViewState implements ViewState<SigninView> {
             case STATE_SHOW_ERROR:
                 view.showError(mException);
                 break;
+            default:
         }
     }
 

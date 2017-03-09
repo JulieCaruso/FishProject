@@ -39,6 +39,38 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
     @BindView(R.id.add_department_add_button)
     AppCompatButton mAddButton;
 
+    private View.OnClickListener onClickAdd = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            boolean valid = true;
+            String name = mNameInput.getText().toString();
+            String address = mAddressInput.getText().toString();
+            String employeeNbString = mEmployeeNbInput.getText().toString();
+            int employeeNb = 0;
+
+            if (name.isEmpty()) {
+                valid = false;
+                mNameInput.setError(getString(R.string.error_empty));
+            }
+            if (address.isEmpty()) {
+                valid = false;
+                mAddressInput.setError(getString(R.string.error_empty));
+            }
+            if (employeeNbString.isEmpty()) {
+                valid = false;
+                mEmployeeNbInput.setError(getString(R.string.error_empty));
+            }
+            try {
+                employeeNb = Integer.parseInt(employeeNbString);
+            } catch (NumberFormatException e) {
+                valid = false;
+                mEmployeeNbInput.setError(getString(R.string.error_not_a_number));
+            }
+            if (valid)
+                presenter.doAddDepartment(name, address, employeeNb);
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,41 +95,6 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
             }
         });
     }
-
-    private View.OnClickListener onClickAdd = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean valid = true;
-
-            String name = mNameInput.getText().toString();
-            if (name.isEmpty()) {
-                valid = false;
-                mNameInput.setError(getString(R.string.error_empty));
-            }
-
-            String address = mAddressInput.getText().toString();
-            if (address.isEmpty()) {
-                valid = false;
-                mAddressInput.setError(getString(R.string.error_empty));
-            }
-
-            String employeeNbString = mEmployeeNbInput.getText().toString();
-            if (employeeNbString.isEmpty()) {
-                valid = false;
-                mEmployeeNbInput.setError(getString(R.string.error_empty));
-            }
-            int employeeNb = 0;
-            try {
-                employeeNb = Integer.parseInt(employeeNbString);
-            } catch (NumberFormatException e) {
-                valid = false;
-                mEmployeeNbInput.setError(getString(R.string.error_not_a_number));
-            }
-
-            if (valid)
-                presenter.doAddDepartment(name, address, employeeNb);
-        }
-    };
 
     @NonNull
     @Override

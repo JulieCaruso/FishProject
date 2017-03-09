@@ -34,15 +34,6 @@ public class MainActivityTest2 {
 
     @Test
     public void mainActivityTest2() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         onView(allOf(withId(R.id.login_username), isDisplayed()))
                 .perform(replaceText("a"), closeSoftKeyboard());
 
@@ -55,15 +46,6 @@ public class MainActivityTest2 {
         onView(allOf(withId(R.id.login_password), withText("a"), isDisplayed()))
                 .perform(pressImeActionButton());
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         onView(allOf(withId(R.id.main_drawer_button),
                 withParent(withId(R.id.main_toolbar)),
                 isDisplayed()))
@@ -74,15 +56,6 @@ public class MainActivityTest2 {
                         withParent(withId(android.R.id.content)))),
                 isDisplayed()))
                 .perform(actionOnItemAtPosition(3, click()));
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(allOf(withId(R.id.departments_fab), isDisplayed()))
                 .perform(click());

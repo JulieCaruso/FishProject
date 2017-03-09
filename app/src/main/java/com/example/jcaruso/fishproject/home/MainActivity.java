@@ -26,25 +26,16 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
-    private final static String STATE_SELECTED_ITEM = "MainActivity.STATE_SELECTED_ITEM";
-    private final static String EXTRA_NEXT_FRAGMENT_ID = "MainActivity.EXTRA_NEXT_FRAGMENT_ID";
+    private static final String STATE_SELECTED_ITEM = "MainActivity.STATE_SELECTED_ITEM";
+    private static final String EXTRA_NEXT_FRAGMENT_ID = "MainActivity.EXTRA_NEXT_FRAGMENT_ID";
 
-    public final static int VIEW_PROFILE = 1;
-    private final static int UPDATE_PROFILE = 2;
-    public final static int DEPARTMENTS_LIST = 3;
-    public final static int ADD_DEPARTMENT = 4;
-    private final static int LOG_OUT = 5;
+    public static final int VIEW_PROFILE = 1;
+    private static final int UPDATE_PROFILE = 2;
+    public static final int DEPARTMENTS_LIST = 3;
+    public static final int ADD_DEPARTMENT = 4;
+    private static final int LOG_OUT = 5;
 
-    private List<DrawerItem> mDrawerItems = new ArrayList<DrawerItem>() {{
-        // header
-        add(new DrawerItem());
-        // drawer items
-        add(new DrawerItem(R.drawable.ic_account_circle_black_48dp, R.string.view_profile));
-        add(new DrawerItem(R.drawable.ic_settings_black_48dp, R.string.update_profile));
-        add(new DrawerItem(R.drawable.ic_business_black_48dp, R.string.departments_list));
-        add(new DrawerItem(R.drawable.ic_add_black_48dp, R.string.add_department));
-        add(new DrawerItem(R.drawable.ic_exit_to_app_black_48dp, R.string.logout));
-    }};
+    private List<DrawerItem> mDrawerItems = new ArrayList<>();
 
     @BindView(R.id.main_toolbar)
     Toolbar mToolbar;
@@ -69,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout_withdrawer);
         ButterKnife.bind(this);
+
+        initializeDrawerItems();
 
         mDrawerAdapter = new DrawerAdapter(this);
         mDrawerAdapter.setItems(mDrawerItems);
@@ -97,6 +90,17 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             mSelectedItem = savedInstanceState.getInt(STATE_SELECTED_ITEM, 1);
             setItemSelected();
         }
+    }
+
+    public void initializeDrawerItems() {
+        // header
+        mDrawerItems.add(new DrawerItem());
+        // drawer items
+        mDrawerItems.add(new DrawerItem(R.drawable.ic_account_circle_black_48dp, R.string.view_profile));
+        mDrawerItems.add(new DrawerItem(R.drawable.ic_settings_black_48dp, R.string.update_profile));
+        mDrawerItems.add(new DrawerItem(R.drawable.ic_business_black_48dp, R.string.departments_list));
+        mDrawerItems.add(new DrawerItem(R.drawable.ic_add_black_48dp, R.string.add_department));
+        mDrawerItems.add(new DrawerItem(R.drawable.ic_exit_to_app_black_48dp, R.string.logout));
     }
 
     @Override
@@ -129,11 +133,13 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
             default:
         }
 
-        getSupportFragmentManager().beginTransaction()
+        getSupportFragmentManager()
+                .beginTransaction()
                 .replace(R.id.main_content_frame, fragment)
                 .addToBackStack(null)
                 .commit();
-        if (mSelectedItem != LOG_OUT) mDrawerLayout.closeDrawer(mDrawerRecycler);
+        if (mSelectedItem != LOG_OUT)
+            mDrawerLayout.closeDrawer(mDrawerRecycler);
     }
 
     private void setItemSelected() {

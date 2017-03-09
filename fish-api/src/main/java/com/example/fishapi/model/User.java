@@ -24,6 +24,18 @@ public class User implements Parcelable {
     @Expose
     private int id;
 
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public User(String firstname, String lastname, String username, String password, String sex, Department department, String token, int id) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -33,6 +45,17 @@ public class User implements Parcelable {
         this.department = department;
         this.token = token;
         this.id = id;
+    }
+
+    private User(Parcel in) {
+        this.firstname = in.readString();
+        this.lastname = in.readString();
+        this.username = in.readString();
+        this.password = in.readString();
+        this.sex = in.readString();
+        this.department = in.readParcelable(Department.class.getClassLoader());
+        this.token = in.readString();
+        this.id = in.readInt();
     }
 
     public String getFirstname() {
@@ -66,29 +89,6 @@ public class User implements Parcelable {
     public int getId() {
         return id;
     }
-
-    protected User(Parcel in) {
-        this.firstname = in.readString();
-        this.lastname = in.readString();
-        this.username = in.readString();
-        this.password = in.readString();
-        this.sex = in.readString();
-        this.department = in.readParcelable(Department.class.getClassLoader());
-        this.token = in.readString();
-        this.id = in.readInt();
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     @Override
     public int describeContents() {

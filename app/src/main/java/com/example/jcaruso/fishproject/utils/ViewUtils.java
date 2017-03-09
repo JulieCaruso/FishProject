@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 
 public class ViewUtils {
 
+    private ViewUtils() {
+    }
+
     /**
      * Enables or disables view and all its children.
      *
