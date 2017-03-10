@@ -9,8 +9,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
 import com.example.jcaruso.fishproject.signin.SigninActivity;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
@@ -95,7 +97,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @NonNull
     @Override
     public LoginPresenter createPresenter() {
-        return new LoginPresenter();
+        return App.getBaseAppComponent().loginComponent().loginPresenter();
     }
 
     @NonNull
@@ -123,6 +125,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         ((LoginViewState) viewState).setShowError(exception);
         mSigninButton.setVisibility(View.VISIBLE);
         mLoginButton.setVisibility(View.VISIBLE);
+        Toast.makeText(this, exception.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

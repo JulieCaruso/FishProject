@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Department implements Parcelable {
     @Expose
     private String address;
     @Expose
+    @SerializedName("employeenb")
     private int employeeNb;
     @Expose
     private int id;
@@ -84,5 +86,10 @@ public class Department implements Parcelable {
         departments.add(new Department("MMM", "5 rue du c", 8, 1));
         departments.add(new Department("AMD", "5 rue du ch", 0, 3));
         return departments;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

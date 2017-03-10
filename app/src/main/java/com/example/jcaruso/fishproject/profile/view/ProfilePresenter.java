@@ -16,7 +16,7 @@ public class ProfilePresenter extends MvpBasePresenter<ProfileView> {
                 @Override
                 public void run() {
                     if (isViewAttached()) {
-                        getView().setData(new User("Julie", "C", "bu", "password", "F", new Department("ADM", "chaussée chrleroi", 25, 5), "sdfghj", 5));
+                        getView().setData(new User("Julie", "C", "bu", "password", "F", 10, "sdfghj", 5));
                         getView().showContent();
                     }
                 }

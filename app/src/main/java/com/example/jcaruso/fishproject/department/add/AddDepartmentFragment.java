@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
@@ -111,7 +112,7 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
     @NonNull
     @Override
     public AddDepartmentPresenter createPresenter() {
-        return new AddDepartmentPresenter();
+        return App.getBaseAppComponent().departmentComponent().addDepartmentPresenter();
     }
 
     @Override

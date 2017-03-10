@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class User implements Parcelable {
 
@@ -18,7 +19,8 @@ public class User implements Parcelable {
     @Expose
     private String sex;
     @Expose
-    private Department department;
+    @SerializedName("departmentid")
+    private int departmentId;
     @Expose
     private String token;
     @Expose
@@ -36,13 +38,13 @@ public class User implements Parcelable {
         }
     };
 
-    public User(String firstname, String lastname, String username, String password, String sex, Department department, String token, int id) {
+    public User(String firstname, String lastname, String username, String password, String sex, int departmentId, String token, int id) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.password = password;
         this.sex = sex;
-        this.department = department;
+        this.departmentId = departmentId;
         this.token = token;
         this.id = id;
     }
@@ -53,7 +55,7 @@ public class User implements Parcelable {
         this.username = in.readString();
         this.password = in.readString();
         this.sex = in.readString();
-        this.department = in.readParcelable(Department.class.getClassLoader());
+        this.departmentId = in.readInt();
         this.token = in.readString();
         this.id = in.readInt();
     }
@@ -78,8 +80,8 @@ public class User implements Parcelable {
         return sex;
     }
 
-    public Department getDepartment() {
-        return department;
+    public int getDepartmentId() {
+        return departmentId;
     }
 
     public String getToken() {
@@ -102,7 +104,7 @@ public class User implements Parcelable {
         out.writeString(this.username);
         out.writeString(this.password);
         out.writeString(this.sex);
-        out.writeParcelable(this.department, flags);
+        out.writeInt(this.departmentId);
         out.writeString(this.token);
         out.writeInt(this.id);
     }

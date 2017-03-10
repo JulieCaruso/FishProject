@@ -17,6 +17,7 @@ import com.example.fishapi.model.Department;
 import com.example.fishapi.viewhelper.ItemTouchHelperAdapter;
 import com.example.fishapi.viewhelper.ItemTouchHelperViewHolder;
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.LceViewState;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.MvpLceViewStateFragment;
@@ -24,11 +25,16 @@ import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLayout, List<Department>, DepartmentsView, DepartmentsPresenter>
         implements DepartmentsView, SwipeRefreshLayout.OnRefreshListener, DepartmentsAdapter.OnStartDragListener {
+
+    @Inject
+    DepartmentsPresenter mPresenter;
 
     @BindView(R.id.departments_fab)
     FloatingActionButton mFab;
@@ -45,6 +51,13 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
                 mFab.show();
         }
     };
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
 
     @Nullable
     @Override
@@ -161,7 +174,8 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
     @NonNull
     @Override
     public DepartmentsPresenter createPresenter() {
-        return new DepartmentsPresenter();
+
+        return App.getBaseAppComponent().departmentComponent().departmentsPresenter();
     }
 
     @Override

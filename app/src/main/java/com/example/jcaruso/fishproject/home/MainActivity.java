@@ -13,13 +13,17 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.department.add.AddDepartmentFragment;
 import com.example.jcaruso.fishproject.department.view.DepartmentsFragment;
+import com.example.jcaruso.fishproject.login.LoginActivity;
 import com.example.jcaruso.fishproject.profile.update.UpdateProfileFragment;
 import com.example.jcaruso.fishproject.profile.view.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,7 +132,10 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
                 fragment = new AddDepartmentFragment();
                 break;
             case LOG_OUT:
-                finish();
+                App.resetUser();
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
             default:
         }

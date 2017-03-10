@@ -16,11 +16,13 @@ import android.widget.TextView;
 
 import com.example.fishapi.model.Department;
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,11 +31,19 @@ import static com.example.jcaruso.fishproject.utils.ViewUtils.animateToVisible;
 
 public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPresenter> implements SigninView {
 
+    @BindView(R.id.loadingView)
+    View mLoadingView;
+
+    @BindView(R.id.contentView)
+    View mContentView;
+
     @BindView(R.id.signin_department)
     Spinner mDepartmentSpinner;
 
     @BindView(R.id.signin_signin_button)
     AppCompatButton mSigninButton;
+
+    private ArrayAdapter mSpinnerAdapter;
 
     private View.OnClickListener onClickSignin = new View.OnClickListener() {
         @Override
@@ -63,7 +73,7 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
             String sex = sexInput.getCheckedRadioButtonId() == R.id.signin_sex_m ?
                     getString(R.string.sex_m) : getString(R.string.sex_f);
 
-            String department = departmentInput.getSelectedItem().toString();
+            Department department = (Department) departmentInput.getSelectedItem();
 
             String username = usernameInput.getText().toString();
             if (username.isEmpty()) {
@@ -84,7 +94,7 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
             }
 
             if (valid) {
-                presenter.doSignin(firstname, lastname, sex, new Department(department, "azer", 25, 5), username, password);
+                presenter.doSignin(firstname, lastname, sex, department.getId(), username, password);
             }
         }
     };
@@ -95,12 +105,12 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
         setContentView(R.layout.signin_activity);
         ButterKnife.bind(this);
 
-        ArrayAdapter adapter = new ArrayAdapter<>(this,
+        mSpinnerAdapter = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
-                Arrays.asList(new String[]{"ADM", "DMA", "MDA"}));
+                new ArrayList());
 
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        mDepartmentSpinner.setAdapter(adapter);
+        mSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        mDepartmentSpinner.setAdapter(mSpinnerAdapter);
 
         findViewById(R.id.signin_signin_button).setOnClickListener(onClickSignin);
         ((TextInputEditText) findViewById(R.id.signin_password_confirmation)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -119,7 +129,7 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
     @NonNull
     @Override
     public SigninPresenter createPresenter() {
-        return new SigninPresenter();
+        return App.getBaseAppComponent().signinComponent().signinPresenter();
     }
 
     @NonNull
@@ -134,10 +144,32 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
     }
 
     @Override
+    public void loadData() {
+        presenter.loadDepartments();
+    }
+
+    @Override
     public void showSigninForm() {
         ((SigninViewState) viewState).setShowSigninForm();
+        mLoadingView.setVisibility(View.GONE);
+        mContentView.setVisibility(View.VISIBLE);
         mSigninButton.setVisibility(View.VISIBLE);
 
+    }
+
+    @Override
+    public void showLoadingForm() {
+        ((SigninViewState) viewState).setShowLoadingForm();
+        mLoadingView.setVisibility(View.VISIBLE);
+        mContentView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setDepartments(List<Department> departments) {
+        ((SigninViewState) viewState).setShowSigninForm();
+        mSpinnerAdapter.clear();
+        mSpinnerAdapter.addAll(departments);
+        mSpinnerAdapter.notifyDataSetChanged();
     }
 
     @Override

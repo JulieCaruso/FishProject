@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.fishapi.dependency.RestServiceModule;
+import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.BuildConfig;
 import com.example.jcaruso.fishproject.dependency.AppModule;
 import com.example.jcaruso.fishproject.dependency.BaseAppComponent;
 import com.example.jcaruso.fishproject.dependency.DaggerBaseAppComponent;
 import com.example.jcaruso.fishproject.login.LoginActivity;
 import com.example.jcaruso.fishproject.utils.Cache;
+import com.google.gson.Gson;
 
 public class App extends Application {
 
@@ -36,7 +38,7 @@ public class App extends Application {
 
         mBaseAppComponent = DaggerBaseAppComponent
                 .builder()
-                .restServiceModule(new RestServiceModule("http://google.fr"))
+                .restServiceModule(new RestServiceModule(BuildConfig.API_URL))
                 .appModule(new AppModule())
                 .build();
 
@@ -46,7 +48,7 @@ public class App extends Application {
         }
 
         // launch initial activity : LoginActivity if not connected, MainActivity otherwise
-        if (mSharedPreferences.getString(USER, null) == null) {
+        if (getUser() == null) {
             Intent loginIntent = new Intent(this, LoginActivity.class);
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loginIntent);
@@ -69,5 +71,22 @@ public class App extends Application {
         return sInstance.mSharedPreferences.edit();
     }
 
+    public static void setUser(User user) {
+        Gson gson = new Gson();
+        sInstance.mSharedPreferences.edit().putString(USER, gson.toJson(user)).apply();
+    }
 
+    public static User getUser() {
+        Gson gson = new Gson();
+        String userJson = sInstance.mSharedPreferences.getString(USER, null);
+        if (userJson != null) {
+            User user = gson.fromJson(userJson, User.class);
+            return user;
+        }
+        return null;
+    }
+
+    public static void resetUser() {
+        sInstance.mSharedPreferences.edit().remove(USER).apply();
+    }
 }

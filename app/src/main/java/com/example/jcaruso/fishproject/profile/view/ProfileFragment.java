@@ -75,7 +75,7 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
         mFirstname.setText(mUser.getFirstname());
         mLastname.setText(mUser.getLastname());
         mSex.setImageResource(mUser.getSex().equals(getString(R.string.sex_f)) ? R.drawable.ic_gender_female_48dp : R.drawable.ic_gender_male_48dp);
-        mDepartment.setText(mUser.getDepartment().getName());
+        mDepartment.setText("link with departments");
     }
 
     @Override

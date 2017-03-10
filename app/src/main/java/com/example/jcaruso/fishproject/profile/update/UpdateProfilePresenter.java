@@ -18,7 +18,7 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
             public void run() {
                 if (isViewAttached()) {
                     getView().showUpdateProfileForm();
-                    getView().setData(new User("Julie", "C", "bu", "password", "F", new Department("ADM", "chaussée chrleroi", 25, 5), "sdfghj", 5));
+                    getView().setData(new User("Julie", "C", "bu", "password", "F", 10, "sdfghj", 5));
                 }
             }
         }, 2000);
