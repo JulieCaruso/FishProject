@@ -46,6 +46,13 @@ public class MainActivityTest2 {
         onView(allOf(withId(R.id.login_password), withText("a"), isDisplayed()))
                 .perform(pressImeActionButton());
 
+        // wait for 2s of login click + 1s extra
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         onView(allOf(withId(R.id.main_drawer_button),
                 withParent(withId(R.id.main_toolbar)),
                 isDisplayed()))
