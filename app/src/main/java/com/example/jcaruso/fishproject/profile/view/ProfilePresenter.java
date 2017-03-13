@@ -23,46 +23,44 @@ public class ProfilePresenter extends MvpBasePresenter<ProfileView> {
     }
 
     public void loadUser(final boolean pullToRefresh) {
-        if (isViewAttached()) {
+        if (isViewAttached())
             getView().showLoading(pullToRefresh);
 
-            final User user = App.getUser();
-            if (user != null) {
+        final User user = App.getUser();
+        if (user != null) {
 
-                mDataService.getDepartment(user.getDepartmentId())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Department>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                            }
+            mDataService.getDepartment(user.getDepartmentId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Department>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            // onSubscribe
+                        }
 
-                            @Override
-                            public void onNext(Department department) {
-                                if (isViewAttached())
-                                    getView().setDepartment(department);
-                            }
+                        @Override
+                        public void onNext(Department department) {
+                            if (isViewAttached())
+                                getView().setDepartment(department);
+                        }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                if (isViewAttached())
-                                    getView().showError(e, pullToRefresh);
-                            }
+                        @Override
+                        public void onError(Throwable e) {
+                            if (isViewAttached())
+                                getView().showError(e, pullToRefresh);
+                        }
 
-                            @Override
-                            public void onComplete() {
-                                if (isViewAttached()) {
-                                    getView().setData(user);
-                                    getView().showContent();
-                                }
+                        @Override
+                        public void onComplete() {
+                            if (isViewAttached()) {
+                                getView().setData(user);
+                                getView().showContent();
                             }
-                        });
-            } else {
-                if (isViewAttached())
-                    getView().showError(new Throwable("User not found"), pullToRefresh);
-            }
+                        }
+                    });
+        } else {
+            if (isViewAttached())
+                getView().showError(new Throwable("User not found"), pullToRefresh);
         }
     }
-
-
 }

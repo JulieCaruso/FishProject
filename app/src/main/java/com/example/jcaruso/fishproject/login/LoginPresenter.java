@@ -29,13 +29,14 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
             getView().showLoading();
 
         try {
-            String hash = User.SHA1(password);
+            String hash = User.encryptSHA1(password);
             mDataService.login(new User(null, null, username, hash, null, -1, null, -1))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<User>() {
                         @Override
                         public void onSubscribe(Disposable d) {
+                            // onSubscribe
                         }
 
                         @Override

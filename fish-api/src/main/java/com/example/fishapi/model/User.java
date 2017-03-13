@@ -113,7 +113,7 @@ public class User implements Parcelable {
         out.writeInt(this.id);
     }
 
-    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String encryptSHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         byte[] textBytes = text.getBytes("UTF-8");
         md.update(textBytes, 0, textBytes.length);
@@ -125,11 +125,11 @@ public class User implements Parcelable {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {
             int halfbyte = (b >>> 4) & 0x0F;
-            int two_halfs = 0;
+            int twoHalves = 0;
             do {
                 buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
                 halfbyte = b & 0x0F;
-            } while (two_halfs++ < 1);
+            } while (twoHalves++ < 1);
         }
         return buf.toString();
     }

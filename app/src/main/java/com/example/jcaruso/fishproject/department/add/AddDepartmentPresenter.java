@@ -30,10 +30,12 @@ public class AddDepartmentPresenter extends MvpBasePresenter<AddDepartmentView> 
                 .subscribe(new Observer<Department>() {
                     @Override
                     public void onSubscribe(Disposable d) {
+                        // onSubscribe
                     }
 
                     @Override
-                    public void onNext(Department value) {
+                    public void onNext(Department department) {
+                        // onNext
                     }
 
                     @Override

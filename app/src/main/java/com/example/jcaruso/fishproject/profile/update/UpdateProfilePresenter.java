@@ -27,7 +27,7 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
     }
 
 
-    public void loadUser() {
+    public void loadDepartments() {
         if (isViewAttached())
             getView().showLoadingUpdateProfileForm();
 
@@ -39,6 +39,7 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
                     .subscribe(new Observer<List<Department>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
+                            // onSubscribe
                         }
 
                         @Override
@@ -61,6 +62,9 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
                             }
                         }
                     });
+        } else {
+            if (isViewAttached())
+                getView().showError(new Throwable("no user"));
         }
     }
 
@@ -69,14 +73,14 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
             getView().showLoadingUpdateProfile();
 
         try {
-            String hash = User.SHA1(password);
+            String hash = User.encryptSHA1(password);
             mDataService.updateProfile(userId, new User(firstname, lastname, username, hash, sex, departmentId, "token", userId))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<User>() {
                         @Override
                         public void onSubscribe(Disposable d) {
-
+                            // onSubscribe
                         }
 
                         @Override

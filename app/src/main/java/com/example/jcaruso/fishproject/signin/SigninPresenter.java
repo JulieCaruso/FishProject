@@ -35,6 +35,7 @@ public class SigninPresenter extends MvpBasePresenter<SigninView> {
                 .subscribe(new Observer<List<Department>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
+                        // onSubscribe
                     }
 
                     @Override
@@ -62,18 +63,19 @@ public class SigninPresenter extends MvpBasePresenter<SigninView> {
             getView().showLoading();
 
         try {
-            String hash = User.SHA1(password);
+            String hash = User.encryptSHA1(password);
             mDataService.signin(new User(firstname, lastname, username, hash, sex, departmentId, "token", -1))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<User>() {
                         @Override
                         public void onSubscribe(Disposable d) {
-
+                            // onSubscribe
                         }
 
                         @Override
                         public void onNext(User user) {
+                            // onNext
                         }
 
                         @Override

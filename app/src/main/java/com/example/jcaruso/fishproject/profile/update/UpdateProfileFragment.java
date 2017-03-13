@@ -162,7 +162,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
 
     @Override
     public void loadData() {
-        presenter.loadUser();
+        presenter.loadDepartments();
     }
 
     @Override

@@ -32,6 +32,7 @@ public class DepartmentsPresenter extends MvpBasePresenter<DepartmentsView> {
                 .subscribe(new Observer<List<Department>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
+                        // onSubscribe
                     }
 
                     @Override
