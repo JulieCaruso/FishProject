@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface RestService {
@@ -20,6 +21,9 @@ public interface RestService {
 
     @POST("/api/signin")
     Observable<User> signin(@Body User user);
+
+    @PUT("/api/update-profile/{id}")
+    Observable<User> updateProfile(@Path("id") Integer userId, @Body User user);
 
     // DEPARTMENTS
 

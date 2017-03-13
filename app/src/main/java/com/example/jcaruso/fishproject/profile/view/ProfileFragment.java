@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.fishapi.model.Department;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.app.App;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.LceViewState;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.MvpLceViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
@@ -60,7 +62,7 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
     @NonNull
     @Override
     public ProfilePresenter createPresenter() {
-        return new ProfilePresenter();
+        return App.getBaseAppComponent().profileComponent().profilePresenter();
     }
 
     @Override
@@ -75,7 +77,6 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
         mFirstname.setText(mUser.getFirstname());
         mLastname.setText(mUser.getLastname());
         mSex.setImageResource(mUser.getSex().equals(getString(R.string.sex_f)) ? R.drawable.ic_gender_female_48dp : R.drawable.ic_gender_male_48dp);
-        mDepartment.setText("link with departments");
     }
 
     @Override
@@ -105,5 +106,10 @@ public class ProfileFragment extends MvpLceViewStateFragment<SwipeRefreshLayout,
     public void showError(Throwable e, boolean pullToRefresh) {
         super.showError(e, pullToRefresh);
         contentView.setRefreshing(false);
+    }
+
+    @Override
+    public void setDepartment(Department department) {
+        mDepartment.setText(department.getName());
     }
 }

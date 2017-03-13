@@ -24,6 +24,10 @@ public class DataService {
         return mRestService.signin(user);
     }
 
+    public Observable<User> updateProfile(Integer userId, User user) {
+        return mRestService.updateProfile(userId, user);
+    }
+
     public Observable<List<Department>> getDepartments() {
         return mRestService.getDepartments();
     }

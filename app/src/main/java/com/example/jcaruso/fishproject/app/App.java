@@ -3,6 +3,7 @@ package com.example.jcaruso.fishproject.app;
 import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.fishapi.dependency.RestServiceModule;
 import com.example.fishapi.model.User;
@@ -48,9 +49,6 @@ public class App extends Application {
                 .build();
 
         mSharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
-        if (!mSharedPreferences.contains(USER)) {
-            mSharedPreferences.edit().putString(USER, null).apply();
-        }
 
         // launch initial activity : LoginActivity if not connected, MainActivity otherwise
         if (getUser() == null) {
@@ -88,6 +86,8 @@ public class App extends Application {
     public static User getUser() {
         String userJson = sInstance.mSharedPreferences.getString(USER, null);
         if (userJson != null) {
+            if (getGson() == null)
+                return new Gson().fromJson(userJson, User.class);
             return getGson().fromJson(userJson, User.class);
         }
         return null;

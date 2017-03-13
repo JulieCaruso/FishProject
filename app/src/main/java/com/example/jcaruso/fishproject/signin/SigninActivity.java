@@ -107,7 +107,7 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
 
         mSpinnerAdapter = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
-                new ArrayList());
+                new ArrayList<Department>());
 
         mSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mDepartmentSpinner.setAdapter(mSpinnerAdapter);

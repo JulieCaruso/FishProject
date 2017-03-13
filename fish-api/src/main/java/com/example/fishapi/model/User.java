@@ -24,11 +24,11 @@ public class User implements Parcelable {
     private String sex;
     @Expose
     @SerializedName("departmentid")
-    private int departmentId;
+    private Integer departmentId;
     @Expose
     private String token;
     @Expose
-    private int id;
+    private Integer id;
 
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override

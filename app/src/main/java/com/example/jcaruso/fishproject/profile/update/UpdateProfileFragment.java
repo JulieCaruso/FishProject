@@ -21,12 +21,14 @@ import android.widget.Toast;
 import com.example.fishapi.model.Department;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
+import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,6 +77,11 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
     @BindView(R.id.update_profile_update_button)
     AppCompatButton mUpdateButton;
 
+    private ArrayAdapter<Department> mSpinnerAdapter;
+
+    private User mUser;
+    private List<Department> mDepartments;
+
     private View.OnClickListener onClickUpdate = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -95,7 +102,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
             String sex = mSexInput.getCheckedRadioButtonId() == R.id.update_profile_sex_m ?
                     getString(R.string.sex_m) : getString(R.string.sex_f);
 
-            String department = mDepartmentSpinner.getSelectedItem().toString();
+            int departmentId = ((Department) mDepartmentSpinner.getSelectedItem()).getId();
 
             String username = mUsernameInput.getText().toString();
             if (username.isEmpty()) {
@@ -116,7 +123,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
             }
 
             if (valid) {
-                presenter.doUpdateProfile(firstname, lastname, sex, new Department(department, "azer", 25, 5), username, password);
+                presenter.doUpdateProfile(mUser.getId(), firstname, lastname, sex, departmentId, username, password);
             }
         }
     };
@@ -132,12 +139,12 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        ArrayAdapter adapter = new ArrayAdapter<>(getContext(),
+        mSpinnerAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item,
-                Arrays.asList(new String[]{"ADM", "DMA", "MDA"}));
+                new ArrayList<Department>());
 
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        mDepartmentSpinner.setAdapter(adapter);
+        mSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        mDepartmentSpinner.setAdapter(mSpinnerAdapter);
 
         mUpdateButton.setOnClickListener(onClickUpdate);
 
@@ -160,11 +167,25 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
 
     @Override
     public void setData(User user) {
+        mUser = user;
         mFirstnameInput.setText(user.getFirstname());
         mLastnameInput.setText(user.getLastname());
         mSexInput.check(user.getSex().equals(getContext().getString(R.string.sex_m)) ? R.id.update_profile_sex_m : R.id.update_profile_sex_f);
-        mDepartmentSpinner.setSelection(1);
+        int position = 0;
+        for (Department department : mDepartments) {
+            if (department.getId() == user.getDepartmentId())
+                mDepartmentSpinner.setSelection(position);
+            position++;
+        }
         mUsernameInput.setText(user.getUsername());
+    }
+
+    @Override
+    public void setDepartments(List<Department> departments) {
+        mDepartments = departments;
+        mSpinnerAdapter.clear();
+        mSpinnerAdapter.addAll(mDepartments);
+        mSpinnerAdapter.notifyDataSetChanged();
     }
 
     @NonNull
@@ -182,7 +203,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
     @NonNull
     @Override
     public UpdateProfilePresenter createPresenter() {
-        return new UpdateProfilePresenter();
+        return App.getBaseAppComponent().profileComponent().updateProfilePresenter();
     }
 
     @Override
