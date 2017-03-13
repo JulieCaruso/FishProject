@@ -60,7 +60,7 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
             if (valid)
                 presenter.doLogin(username, password);
             else
-                showError(new Exception(""));
+                showError(new Exception("Wrong credentials"));
         }
     };
 

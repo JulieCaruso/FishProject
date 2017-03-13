@@ -5,6 +5,8 @@ import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.service.DataService;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,31 +61,37 @@ public class SigninPresenter extends MvpBasePresenter<SigninView> {
         if (isViewAttached())
             getView().showLoading();
 
-        mDataService.signin(new User(firstname, lastname, username, password, sex, departmentId, "token", -1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        try {
+            String hash = User.SHA1(password);
+            mDataService.signin(new User(firstname, lastname, username, hash, sex, departmentId, "token", -1))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<User>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(User user) {
-                    }
+                        @Override
+                        public void onNext(User user) {
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        if (isViewAttached())
-                            getView().showError(e);
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            if (isViewAttached())
+                                getView().showError(e);
+                        }
 
-                    @Override
-                    public void onComplete() {
-                        if (isViewAttached())
-                            getView().signinSuccessful();
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+                            if (isViewAttached())
+                                getView().signinSuccessful();
+                        }
+                    });
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            if (isViewAttached())
+                getView().showError(e);
+        }
     }
 
     public void onNewInstance() {

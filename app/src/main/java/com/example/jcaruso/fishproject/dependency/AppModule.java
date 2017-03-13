@@ -2,6 +2,7 @@ package com.example.jcaruso.fishproject.dependency;
 
 import com.example.fishapi.service.RestService;
 import com.example.jcaruso.fishproject.service.DataService;
+import com.example.jcaruso.fishproject.utils.Cache;
 import com.google.gson.Gson;
 
 import javax.inject.Singleton;
@@ -23,4 +24,8 @@ public class AppModule {
     public Gson provideGson() {
         return new Gson();
     }
+
+    @Singleton
+    @Provides
+    public Cache provideCache() { return new Cache(); }
 }

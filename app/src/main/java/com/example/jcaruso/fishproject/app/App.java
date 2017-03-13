@@ -14,13 +14,18 @@ import com.example.jcaruso.fishproject.login.LoginActivity;
 import com.example.jcaruso.fishproject.utils.Cache;
 import com.google.gson.Gson;
 
+import javax.inject.Inject;
+
 public class App extends Application {
 
     public static final String USER = "SharedPreferences.USER";
 
     private static App sInstance;
     private BaseAppComponent mBaseAppComponent;
-    private Cache mCache;
+    @Inject
+    public Cache mCache;
+    @Inject
+    public Gson mGson;
     private SharedPreferences mSharedPreferences;
 
     public static App getInstance() {
@@ -63,6 +68,10 @@ public class App extends Application {
         return sInstance.mCache;
     }
 
+    public static Gson getGson() {
+        return sInstance.mGson;
+    }
+
     public static SharedPreferences getSharedPreferences() {
         return sInstance.mSharedPreferences;
     }
@@ -77,11 +86,9 @@ public class App extends Application {
     }
 
     public static User getUser() {
-        Gson gson = new Gson();
         String userJson = sInstance.mSharedPreferences.getString(USER, null);
         if (userJson != null) {
-            User user = gson.fromJson(userJson, User.class);
-            return user;
+            return getGson().fromJson(userJson, User.class);
         }
         return null;
     }
