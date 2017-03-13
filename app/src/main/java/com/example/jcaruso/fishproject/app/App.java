@@ -3,7 +3,6 @@ package com.example.jcaruso.fishproject.app;
 import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.example.fishapi.dependency.RestServiceModule;
 import com.example.fishapi.model.User;

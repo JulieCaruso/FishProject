@@ -43,7 +43,7 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
     @BindView(R.id.signin_signin_button)
     AppCompatButton mSigninButton;
 
-    private ArrayAdapter mSpinnerAdapter;
+    private ArrayAdapter<Department> mSpinnerAdapter;
 
     private View.OnClickListener onClickSignin = new View.OnClickListener() {
         @Override

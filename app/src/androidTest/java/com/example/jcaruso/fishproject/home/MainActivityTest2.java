@@ -35,15 +35,15 @@ public class MainActivityTest2 {
     @Test
     public void mainActivityTest2() {
         onView(allOf(withId(R.id.login_username), isDisplayed()))
-                .perform(replaceText("a"), closeSoftKeyboard());
+                .perform(replaceText("username"), closeSoftKeyboard());
 
-        onView(allOf(withId(R.id.login_username), withText("a"), isDisplayed()))
+        onView(allOf(withId(R.id.login_username), withText("username"), isDisplayed()))
                 .perform(pressImeActionButton());
 
         onView(allOf(withId(R.id.login_password), isDisplayed()))
-                .perform(replaceText("a"), closeSoftKeyboard());
+                .perform(replaceText("password"), closeSoftKeyboard());
 
-        onView(allOf(withId(R.id.login_password), withText("a"), isDisplayed()))
+        onView(allOf(withId(R.id.login_password), withText("password"), isDisplayed()))
                 .perform(pressImeActionButton());
 
         // wait for 2s of login click + 1s extra

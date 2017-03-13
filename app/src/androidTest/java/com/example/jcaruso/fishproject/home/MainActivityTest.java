@@ -96,9 +96,9 @@ public class MainActivityTest {
         //        .perform(RecyclerViewActions.scrollToPosition(6));
 
         onView(withId(R.id.departments_recycler))
-                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("MMM")), scrollTo()));
+                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("Hello")), scrollTo()));
 
-        onView(withText("MMM"))
+        onView(withText("Hello"))
                 .check(matches(isDisplayed()));
     }
 
@@ -111,10 +111,10 @@ public class MainActivityTest {
                 .perform(click());
 
         onView(withId(R.id.departments_recycler))
-                .perform(RecyclerViewActions.scrollToHolder(withTitle("MMM")))
+                .perform(RecyclerViewActions.scrollToHolder(withTitle("Hello")))
                 .perform(click());
 
-        onView(withText("MAD"))
+        onView(withText("Hello"))
                 .check(matches(isDisplayed()));
     }
 

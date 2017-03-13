@@ -23,8 +23,6 @@ import com.example.jcaruso.fishproject.profile.view.ProfileFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
