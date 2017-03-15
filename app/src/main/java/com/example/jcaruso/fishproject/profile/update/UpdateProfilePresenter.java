@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.profile.update;
 
 import com.example.fishapi.model.Department;
+import com.example.fishapi.model.RestResponse;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.service.DataService;
@@ -36,16 +37,16 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
             mDataService.getDepartments()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<List<Department>>() {
+                    .subscribe(new Observer<RestResponse<List<Department>>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             // onSubscribe
                         }
 
                         @Override
-                        public void onNext(List<Department> departments) {
+                        public void onNext(RestResponse<List<Department>> restResponse) {
                             if (isViewAttached())
-                                getView().setDepartments(departments);
+                                getView().setDepartments(restResponse.getData());
                         }
 
                         @Override
@@ -77,15 +78,15 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
             mDataService.updateProfile(userId, new User(firstname, lastname, username, hash, sex, departmentId, "token", userId))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<User>() {
+                    .subscribe(new Observer<RestResponse<User>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             // onSubscribe
                         }
 
                         @Override
-                        public void onNext(User user) {
-                            App.setUser(user);
+                        public void onNext(RestResponse<User> restResponse) {
+                            App.setUser(restResponse.getData());
                         }
 
                         @Override

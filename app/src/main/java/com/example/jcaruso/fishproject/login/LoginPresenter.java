@@ -1,5 +1,6 @@
 package com.example.jcaruso.fishproject.login;
 
+import com.example.fishapi.model.RestResponse;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.service.DataService;
@@ -33,14 +34,15 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
             mDataService.login(new User(null, null, username, hash, null, -1, null, -1))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<User>() {
+                    .subscribe(new Observer<RestResponse<User>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             // onSubscribe
                         }
 
                         @Override
-                        public void onNext(User user) {
+                        public void onNext(RestResponse<User> restResponse) {
+                            User user = restResponse.getData();
                             //checks
                             if (user == null && isViewAttached())
                                 getView().showError(new Throwable("user null"));

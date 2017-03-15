@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.profile.view;
 
 import com.example.fishapi.model.Department;
+import com.example.fishapi.model.RestResponse;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.service.DataService;
@@ -32,16 +33,16 @@ public class ProfilePresenter extends MvpBasePresenter<ProfileView> {
             mDataService.getDepartment(user.getDepartmentId())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Department>() {
+                    .subscribe(new Observer<RestResponse<Department>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             // onSubscribe
                         }
 
                         @Override
-                        public void onNext(Department department) {
+                        public void onNext(RestResponse<Department> department) {
                             if (isViewAttached())
-                                getView().setDepartment(department);
+                                getView().setDepartment(department.getData());
                         }
 
                         @Override

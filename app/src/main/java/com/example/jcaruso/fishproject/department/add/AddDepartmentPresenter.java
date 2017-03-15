@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.department.add;
 
 import com.example.fishapi.model.Department;
+import com.example.fishapi.model.RestResponse;
 import com.example.jcaruso.fishproject.service.DataService;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
@@ -27,14 +28,14 @@ public class AddDepartmentPresenter extends MvpBasePresenter<AddDepartmentView> 
         mDataService.addDepartment(new Department(name, address, employeeNb, -1))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Department>() {
+                .subscribe(new Observer<RestResponse<Department>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         // onSubscribe
                     }
 
                     @Override
-                    public void onNext(Department department) {
+                    public void onNext(RestResponse<Department> restResponse) {
                         // onNext
                     }
 

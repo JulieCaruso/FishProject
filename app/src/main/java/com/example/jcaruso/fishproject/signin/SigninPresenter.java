@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.signin;
 
 import com.example.fishapi.model.Department;
+import com.example.fishapi.model.RestResponse;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.service.DataService;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -32,16 +33,16 @@ public class SigninPresenter extends MvpBasePresenter<SigninView> {
         mDataService.getDepartments()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Department>>() {
+                .subscribe(new Observer<RestResponse<List<Department>>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         // onSubscribe
                     }
 
                     @Override
-                    public void onNext(List<Department> departments) {
+                    public void onNext(RestResponse<List<Department>> restResponse) {
                         if (isViewAttached())
-                            getView().setDepartments(departments);
+                            getView().setDepartments(restResponse.getData());
                     }
 
                     @Override
@@ -67,14 +68,14 @@ public class SigninPresenter extends MvpBasePresenter<SigninView> {
             mDataService.signin(new User(firstname, lastname, username, hash, sex, departmentId, "token", -1))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<User>() {
+                    .subscribe(new Observer<RestResponse<User>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             // onSubscribe
                         }
 
                         @Override
-                        public void onNext(User user) {
+                        public void onNext(RestResponse<User> restResponse) {
                             // onNext
                         }
 
