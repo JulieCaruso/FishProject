@@ -107,7 +107,7 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                // swipe not implemented
+                throw new UnsupportedOperationException("Swipe unsupported.");
             }
 
             @Override
@@ -140,12 +140,7 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
 
         mHelper.attachToRecyclerView(recycler);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(MainActivity.createIntent(getContext(), MainActivity.ADD_DEPARTMENT));
-            }
-        });
+        mFab.setOnClickListener(v -> startActivity(MainActivity.createIntent(getContext(), MainActivity.ADD_DEPARTMENT)));
     }
 
     @Override

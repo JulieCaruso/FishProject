@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.NestedScrollView;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jcaruso.fishproject.R;
@@ -40,28 +38,25 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     @BindView(R.id.login_signin_button)
     View mSigninButton;
 
-    private View.OnClickListener onClickLogin = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean valid = true;
+    private View.OnClickListener onClickLogin = v -> {
+        boolean valid = true;
 
-            String username = mUsernameInput.getText().toString();
-            if (username.isEmpty()) {
-                valid = false;
-                mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String password = mPasswordInput.getText().toString();
-            if (password.isEmpty()) {
-                valid = false;
-                mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            if (valid)
-                presenter.doLogin(username, password);
-            else
-                showError(new Exception("Wrong credentials"));
+        String username = mUsernameInput.getText().toString();
+        if (username.isEmpty()) {
+            valid = false;
+            mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
         }
+
+        String password = mPasswordInput.getText().toString();
+        if (password.isEmpty()) {
+            valid = false;
+            mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
+        }
+
+        if (valid)
+            presenter.doLogin(username, password);
+        else
+            showError(new Exception("Wrong credentials"));
     };
 
     @Override
@@ -73,23 +68,16 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         ButterKnife.bind(this);
 
         mLoginButton.setOnClickListener(onClickLogin);
-        mSigninButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(LoginActivity.this, SigninActivity.class), REQUEST_CODE);
-            }
-        });
+        mSigninButton.setOnClickListener(v ->
+                startActivityForResult(new Intent(LoginActivity.this, SigninActivity.class), REQUEST_CODE));
 
-        mPasswordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.login_activity);
-                    scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
-                    onClickLogin.onClick(mLoginButton);
-                }
-                return false;
+        mPasswordInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.login_activity);
+                scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
+                onClickLogin.onClick(mLoginButton);
             }
+            return false;
         });
     }
 

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fishapi.model.Department;
@@ -82,50 +80,39 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
     private User mUser;
     private List<Department> mDepartments;
 
-    private View.OnClickListener onClickUpdate = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean valid = true;
+    private View.OnClickListener onClickUpdate = v -> {
+        boolean valid = true;
+        String firstname = mFirstnameInput.getText().toString();
+        String lastname = mLastnameInput.getText().toString();
+        String sex = mSexInput.getCheckedRadioButtonId() == R.id.update_profile_sex_m ?
+                getString(R.string.sex_m) : getString(R.string.sex_f);
+        int departmentId = ((Department) mDepartmentSpinner.getSelectedItem()).getId();
+        String username = mUsernameInput.getText().toString();
+        String password = mPasswordInput.getText().toString();
+        String passwordConfirmation = mPasswordConfirmationInput.getText().toString();
 
-            String firstname = mFirstnameInput.getText().toString();
-            if (firstname.isEmpty()) {
-                valid = false;
-                mFirstnameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String lastname = mLastnameInput.getText().toString();
-            if (lastname.isEmpty()) {
-                valid = false;
-                mLastnameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String sex = mSexInput.getCheckedRadioButtonId() == R.id.update_profile_sex_m ?
-                    getString(R.string.sex_m) : getString(R.string.sex_f);
-
-            int departmentId = ((Department) mDepartmentSpinner.getSelectedItem()).getId();
-
-            String username = mUsernameInput.getText().toString();
-            if (username.isEmpty()) {
-                valid = false;
-                mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String password = mPasswordInput.getText().toString();
-            if (password.isEmpty()) {
-                valid = false;
-                mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String passwordConfirmation = mPasswordConfirmationInput.getText().toString();
-            if (!passwordConfirmation.equals(password)) {
-                valid = false;
-                mPasswordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_paswword));
-            }
-
-            if (valid) {
-                presenter.doUpdateProfile(mUser.getId(), firstname, lastname, sex, departmentId, username, password);
-            }
+        if (firstname.isEmpty()) {
+            valid = false;
+            mFirstnameInput.setError(v.getContext().getString(R.string.error_empty));
         }
+        if (lastname.isEmpty()) {
+            valid = false;
+            mLastnameInput.setError(v.getContext().getString(R.string.error_empty));
+        }
+        if (username.isEmpty()) {
+            valid = false;
+            mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
+        }
+        if (password.isEmpty()) {
+            valid = false;
+            mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
+        }
+        if (!passwordConfirmation.equals(password)) {
+            valid = false;
+            mPasswordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_paswword));
+        }
+        if (valid)
+            presenter.doUpdateProfile(mUser.getId(), firstname, lastname, sex, departmentId, username, password);
     };
 
     @Nullable
@@ -148,15 +135,12 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
 
         mUpdateButton.setOnClickListener(onClickUpdate);
 
-        mPasswordConfirmationInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    contentView.post(new ViewUtils.FullScrollDownRunnable(contentView));
-                    onClickUpdate.onClick(mUpdateButton);
-                }
-                return false;
+        mPasswordConfirmationInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                contentView.post(new ViewUtils.FullScrollDownRunnable(contentView));
+                onClickUpdate.onClick(mUpdateButton);
             }
+            return false;
         });
     }
 

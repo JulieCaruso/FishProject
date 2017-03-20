@@ -43,7 +43,6 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                         @Override
                         public void onNext(RestResponse<User> restResponse) {
                             User user = restResponse.getData();
-                            //checks
                             if (user == null && isViewAttached())
                                 getView().showError(new Throwable("user null"));
                             else

@@ -26,6 +26,7 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
     private List<Department> mItems = new ArrayList<>();
     private OnStartDragListener mDragListener;
 
+    @FunctionalInterface
     public interface OnStartDragListener {
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
     }
@@ -47,14 +48,11 @@ public class DepartmentsAdapter extends RecyclerView.Adapter implements ItemTouc
         viewHolder.mItem.setName(department.getName());
         viewHolder.mItem.setAddress(department.getAddress());
         viewHolder.mItem.setEmployeeNb(department.getEmployeeNb());
-        viewHolder.mHandle.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                    mDragListener.onStartDrag(holder);
-                }
-                return false;
+        viewHolder.mHandle.setOnTouchListener((v, event) -> {
+            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                mDragListener.onStartDrag(holder);
             }
+            return false;
         });
     }
 

@@ -19,6 +19,7 @@ public class DrawerAdapter extends RecyclerView.Adapter {
     private static final int HEADER_VIEW_TYPE = 0;
     private static final int DRAWER_ITEM_VIEW_TYPE = 1;
 
+    @FunctionalInterface
     public interface OnItemSelectedListener {
         void onItemSelected(int position);
     }
@@ -44,12 +45,8 @@ public class DrawerAdapter extends RecyclerView.Adapter {
             final DrawerItemViewHolder viewHolder = (DrawerItemViewHolder) holder;
             DrawerItem drawerItem = mItems.get(position);
 
-            viewHolder.mItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onItemSelected(viewHolder.getAdapterPosition());
-                }
-            });
+            viewHolder.mItem.setOnClickListener(v ->
+                    mListener.onItemSelected(viewHolder.getAdapterPosition()));
 
             viewHolder.mItem.setImage(drawerItem.getIdResImage());
             viewHolder.mItem.setName(drawerItem.getIdResName());

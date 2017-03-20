@@ -6,12 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jcaruso.fishproject.R;
@@ -40,36 +38,33 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
     @BindView(R.id.add_department_add_button)
     AppCompatButton mAddButton;
 
-    private View.OnClickListener onClickAdd = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean valid = true;
-            String name = mNameInput.getText().toString();
-            String address = mAddressInput.getText().toString();
-            String employeeNbString = mEmployeeNbInput.getText().toString();
-            int employeeNb = 0;
+    private View.OnClickListener onClickAdd = v -> {
+        boolean valid = true;
+        String name = mNameInput.getText().toString();
+        String address = mAddressInput.getText().toString();
+        String employeeNbString = mEmployeeNbInput.getText().toString();
+        int employeeNb = 0;
 
-            if (name.isEmpty()) {
-                valid = false;
-                mNameInput.setError(getString(R.string.error_empty));
-            }
-            if (address.isEmpty()) {
-                valid = false;
-                mAddressInput.setError(getString(R.string.error_empty));
-            }
-            if (employeeNbString.isEmpty()) {
-                valid = false;
-                mEmployeeNbInput.setError(getString(R.string.error_empty));
-            }
-            try {
-                employeeNb = Integer.parseInt(employeeNbString);
-            } catch (NumberFormatException e) {
-                valid = false;
-                mEmployeeNbInput.setError(getString(R.string.error_not_a_number));
-            }
-            if (valid)
-                presenter.doAddDepartment(name, address, employeeNb);
+        if (name.isEmpty()) {
+            valid = false;
+            mNameInput.setError(getString(R.string.error_empty));
         }
+        if (address.isEmpty()) {
+            valid = false;
+            mAddressInput.setError(getString(R.string.error_empty));
+        }
+        if (employeeNbString.isEmpty()) {
+            valid = false;
+            mEmployeeNbInput.setError(getString(R.string.error_empty));
+        }
+        try {
+            employeeNb = Integer.parseInt(employeeNbString);
+        } catch (NumberFormatException e) {
+            valid = false;
+            mEmployeeNbInput.setError(getString(R.string.error_not_a_number));
+        }
+        if (valid)
+            presenter.doAddDepartment(name, address, employeeNb);
     };
 
     @Nullable
@@ -84,16 +79,13 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
         ButterKnife.bind(this, view);
         mAddButton.setOnClickListener(onClickAdd);
 
-        mEmployeeNbInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    NestedScrollView scrollView = (NestedScrollView) view.findViewById(R.id.add_department_fragment);
-                    scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
-                    onClickAdd.onClick(mAddButton);
-                }
-                return false;
+        mEmployeeNbInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                NestedScrollView scrollView = (NestedScrollView) view.findViewById(R.id.add_department_fragment);
+                scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
+                onClickAdd.onClick(mAddButton);
             }
+            return false;
         });
     }
 

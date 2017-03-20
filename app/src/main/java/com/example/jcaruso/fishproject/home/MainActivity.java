@@ -70,19 +70,10 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         mDrawerRecycler.setLayoutManager(new LinearLayoutManager(this));
         mDrawerRecycler.setAdapter(mDrawerAdapter);
 
-        findViewById(R.id.main_drawer_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.openDrawer(mDrawerRecycler, true);
-            }
-        });
+        findViewById(R.id.main_drawer_button).setOnClickListener(v ->
+                mDrawerLayout.openDrawer(mDrawerRecycler, true));
 
-        mProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemSelected(VIEW_PROFILE);
-            }
-        });
+        mProfile.setOnClickListener(v -> onItemSelected(VIEW_PROFILE));
 
         // First time : do not add initial fragment to back stack
         if (savedInstanceState == null) {

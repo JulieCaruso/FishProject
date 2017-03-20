@@ -6,13 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.fishapi.model.Department;
 import com.example.jcaruso.fishproject.R;
@@ -45,58 +43,47 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
 
     private ArrayAdapter<Department> mSpinnerAdapter;
 
-    private View.OnClickListener onClickSignin = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            TextInputEditText firstnameInput = (TextInputEditText) findViewById(R.id.signin_firstname);
-            TextInputEditText lastnameInput = (TextInputEditText) findViewById(R.id.signin_lastname);
-            RadioGroup sexInput = (RadioGroup) findViewById(R.id.signin_sex);
-            Spinner departmentInput = (Spinner) findViewById(R.id.signin_department);
-            TextInputEditText usernameInput = (TextInputEditText) findViewById(R.id.signin_username);
-            TextInputEditText passwordInput = (TextInputEditText) findViewById(R.id.signin_password);
-            TextInputEditText passwordConfirmationInput = (TextInputEditText) findViewById(R.id.signin_password_confirmation);
+    private View.OnClickListener onClickSignin = v -> {
+        TextInputEditText firstnameInput = (TextInputEditText) findViewById(R.id.signin_firstname);
+        TextInputEditText lastnameInput = (TextInputEditText) findViewById(R.id.signin_lastname);
+        RadioGroup sexInput = (RadioGroup) findViewById(R.id.signin_sex);
+        Spinner departmentInput = (Spinner) findViewById(R.id.signin_department);
+        TextInputEditText usernameInput = (TextInputEditText) findViewById(R.id.signin_username);
+        TextInputEditText passwordInput = (TextInputEditText) findViewById(R.id.signin_password);
+        TextInputEditText passwordConfirmationInput = (TextInputEditText) findViewById(R.id.signin_password_confirmation);
+        boolean valid = true;
 
-            boolean valid = true;
+        String firstname = firstnameInput.getText().toString();
+        String lastname = lastnameInput.getText().toString();
+        String sex = sexInput.getCheckedRadioButtonId() == R.id.signin_sex_m ?
+                getString(R.string.sex_m) : getString(R.string.sex_f);
+        Department department = (Department) departmentInput.getSelectedItem();
+        String username = usernameInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        String passwordConfirmation = passwordConfirmationInput.getText().toString();
 
-            String firstname = firstnameInput.getText().toString();
-            if (firstname.isEmpty()) {
-                valid = false;
-                firstnameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String lastname = lastnameInput.getText().toString();
-            if (lastname.isEmpty()) {
-                valid = false;
-                lastnameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String sex = sexInput.getCheckedRadioButtonId() == R.id.signin_sex_m ?
-                    getString(R.string.sex_m) : getString(R.string.sex_f);
-
-            Department department = (Department) departmentInput.getSelectedItem();
-
-            String username = usernameInput.getText().toString();
-            if (username.isEmpty()) {
-                valid = false;
-                usernameInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String password = passwordInput.getText().toString();
-            if (password.isEmpty()) {
-                valid = false;
-                passwordInput.setError(v.getContext().getString(R.string.error_empty));
-            }
-
-            String passwordConfirmation = passwordConfirmationInput.getText().toString();
-            if (!passwordConfirmation.equals(password)) {
-                valid = false;
-                passwordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_paswword));
-            }
-
-            if (valid) {
-                presenter.doSignin(firstname, lastname, sex, department.getId(), username, password);
-            }
+        if (firstname.isEmpty()) {
+            valid = false;
+            firstnameInput.setError(v.getContext().getString(R.string.error_empty));
         }
+        if (lastname.isEmpty()) {
+            valid = false;
+            lastnameInput.setError(v.getContext().getString(R.string.error_empty));
+        }
+        if (username.isEmpty()) {
+            valid = false;
+            usernameInput.setError(v.getContext().getString(R.string.error_empty));
+        }
+        if (password.isEmpty()) {
+            valid = false;
+            passwordInput.setError(v.getContext().getString(R.string.error_empty));
+        }
+        if (!passwordConfirmation.equals(password)) {
+            valid = false;
+            passwordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_paswword));
+        }
+        if (valid)
+            presenter.doSignin(firstname, lastname, sex, department.getId(), username, password);
     };
 
     @Override
@@ -113,16 +100,13 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
         mDepartmentSpinner.setAdapter(mSpinnerAdapter);
 
         findViewById(R.id.signin_signin_button).setOnClickListener(onClickSignin);
-        ((TextInputEditText) findViewById(R.id.signin_password_confirmation)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.signin_activity);
-                    scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
-                    onClickSignin.onClick(mSigninButton);
-                }
-                return false;
+        ((TextInputEditText) findViewById(R.id.signin_password_confirmation)).setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.signin_activity);
+                scrollView.post(new ViewUtils.FullScrollDownRunnable(scrollView));
+                onClickSignin.onClick(mSigninButton);
             }
+            return false;
         });
     }
 
