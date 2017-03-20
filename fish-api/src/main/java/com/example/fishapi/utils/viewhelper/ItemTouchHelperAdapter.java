@@ -1,4 +1,4 @@
-package com.example.fishapi.viewhelper;
+package com.example.fishapi.utils.viewhelper;
 
 public interface ItemTouchHelperAdapter {
 

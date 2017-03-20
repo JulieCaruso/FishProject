@@ -12,13 +12,15 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.fishapi.model.Department;
-import com.example.fishapi.viewhelper.ItemTouchHelperAdapter;
-import com.example.fishapi.viewhelper.ItemTouchHelperViewHolder;
+import com.example.fishapi.utils.viewhelper.ItemTouchHelperAdapter;
+import com.example.fishapi.utils.viewhelper.ItemTouchHelperViewHolder;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
+import com.example.jcaruso.fishproject.utils.RecyclerItemClickListener;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.LceViewState;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.MvpLceViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
@@ -78,6 +80,10 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
         mAdapter = new DepartmentsAdapter(this);
         recycler.setAdapter(mAdapter);
         recycler.addOnScrollListener(onScrollListener);
+
+        recycler.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), (view1, position) ->
+                Toast.makeText(getContext(), getData().get(position).getName(), Toast.LENGTH_SHORT).show())
+        );
 
         mHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
 

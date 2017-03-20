@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.fishapi.model.Department;
-import com.example.fishapi.viewhelper.ItemTouchHelperAdapter;
-import com.example.fishapi.viewhelper.ItemTouchHelperViewHolder;
+import com.example.fishapi.utils.viewhelper.ItemTouchHelperAdapter;
+import com.example.fishapi.utils.viewhelper.ItemTouchHelperViewHolder;
 import com.example.jcaruso.fishproject.R;
 
 import java.util.ArrayList;
