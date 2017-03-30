@@ -35,26 +35,22 @@ public class DepartmentsPresenter extends MvpBasePresenter<DepartmentsView> {
                     @Override
                     public void onSubscribe(Disposable d) {
                         // onSubscribe
-                        System.out.println("onsubscribe");
                     }
 
                     @Override
                     public void onNext(RestResponse<List<Department>> restResponse) {
-                        System.out.println("onnext");
                         if (isViewAttached())
                             getView().setData(restResponse.getData());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("onerror " + e);
                         if (isViewAttached())
                             getView().showError(e, pullToRefresh);
                     }
 
                     @Override
                     public void onComplete() {
-                        System.out.println("oncomplete");
                         if (isViewAttached())
                             getView().showContent();
                     }

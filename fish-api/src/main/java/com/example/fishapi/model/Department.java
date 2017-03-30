@@ -52,10 +52,11 @@ public class Department implements Parcelable {
         this.name = nameInput.getText().toString();
         this.address = addressInput.getText().toString();
         String employeeNbString = employeeNbInput.getText().toString();
-        this.employeeNb = 0;
         try {
             this.employeeNb = Integer.parseInt(employeeNbString);
-        } catch (NumberFormatException e) {}
+        } catch (NumberFormatException e) {
+            this.employeeNb = 0;
+        }
         this.id = -1;
     }
 

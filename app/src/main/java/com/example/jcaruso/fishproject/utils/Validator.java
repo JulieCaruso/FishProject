@@ -5,6 +5,8 @@ import android.support.design.widget.TextInputEditText;
 
 import com.example.jcaruso.fishproject.R;
 
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.AbstractMap;
 import java.util.List;
 
@@ -48,13 +50,10 @@ public class Validator {
 
     private boolean validateIsANumber(TextInputEditText input) {
         String text = input.getText().toString();
-        try {
-            Integer.parseInt(text);
-        } catch (NumberFormatException e) {
-            input.setError(mContext.getString(R.string.error_not_a_number));
-            return false;
-        }
-        return true;
+        NumberFormat formatter = NumberFormat.getInstance();
+        ParsePosition pos = new ParsePosition(0);
+        formatter.parse(text, pos);
+        return text.length() == pos.getIndex();
     }
 
     public boolean validateEqualPasswords(TextInputEditText input1, TextInputEditText input2) {
