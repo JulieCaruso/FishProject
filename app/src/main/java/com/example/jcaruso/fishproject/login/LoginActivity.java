@@ -9,13 +9,19 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
+import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
 import com.example.jcaruso.fishproject.signin.SigninActivity;
+import com.example.jcaruso.fishproject.utils.Validator;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,22 +45,14 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
     View mSigninButton;
 
     private View.OnClickListener onClickLogin = v -> {
-        boolean valid = true;
+        Validator validator = App.getValidator();
 
-        String username = mUsernameInput.getText().toString();
-        if (username.isEmpty()) {
-            valid = false;
-            mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
-        }
+        List<AbstractMap.SimpleEntry<Integer, TextInputEditText>> inputs = new ArrayList<>();
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mUsernameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mPasswordInput));
 
-        String password = mPasswordInput.getText().toString();
-        if (password.isEmpty()) {
-            valid = false;
-            mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
-        }
-
-        if (valid)
-            presenter.doLogin(username, password);
+        if (validator.validate(inputs))
+            presenter.doLogin(new User(mUsernameInput, mPasswordInput));
         else
             showError(new Exception("Wrong credentials"));
     };

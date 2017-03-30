@@ -25,13 +25,14 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         mDataService = dataService;
     }
 
-    public void doLogin(String username, String password) {
+    public void doLogin(User user) {
         if (isViewAttached())
             getView().showLoading();
 
         try {
-            String hash = User.encryptSHA1(password);
-            mDataService.login(new User(null, null, username, hash, null, -1, null, -1))
+            String hash = User.encryptSHA1(user.getPassword());
+            user.setPassword(hash);
+            mDataService.login(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<RestResponse<User>>() {

@@ -2,6 +2,7 @@ package com.example.fishapi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.design.widget.TextInputEditText;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -64,6 +65,17 @@ public class User implements Parcelable {
         this.id = in.readInt();
     }
 
+    public User(TextInputEditText usernameInput, TextInputEditText passwordInput) {
+        this.firstname = null;
+        this.lastname = null;
+        this.username = usernameInput.getText().toString();
+        this.password = passwordInput.getText().toString();
+        this.sex = null;
+        this.departmentId = -1;
+        this.token = null;
+        this.id = -1;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -78,6 +90,10 @@ public class User implements Parcelable {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String hash) {
+        this.password = hash;
     }
 
     public String getSex() {
