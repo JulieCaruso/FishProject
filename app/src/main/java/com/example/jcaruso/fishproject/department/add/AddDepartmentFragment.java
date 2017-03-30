@@ -12,12 +12,18 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
+import com.example.fishapi.model.Department;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
+import com.example.jcaruso.fishproject.utils.Validator;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,32 +45,17 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
     AppCompatButton mAddButton;
 
     private View.OnClickListener onClickAdd = v -> {
-        boolean valid = true;
-        String name = mNameInput.getText().toString();
-        String address = mAddressInput.getText().toString();
-        String employeeNbString = mEmployeeNbInput.getText().toString();
-        int employeeNb = 0;
+        Validator validator = App.getValidator();
 
-        if (name.isEmpty()) {
-            valid = false;
-            mNameInput.setError(getString(R.string.error_empty));
+        List<AbstractMap.SimpleEntry<Integer, TextInputEditText>> inputs = new ArrayList<>();
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mNameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mAddressInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mEmployeeNbInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.IS_A_NUMBER, mEmployeeNbInput));
+
+        if (validator.validate(inputs)) {
+            presenter.doAddDepartment(new Department(mNameInput, mAddressInput, mEmployeeNbInput));
         }
-        if (address.isEmpty()) {
-            valid = false;
-            mAddressInput.setError(getString(R.string.error_empty));
-        }
-        if (employeeNbString.isEmpty()) {
-            valid = false;
-            mEmployeeNbInput.setError(getString(R.string.error_empty));
-        }
-        try {
-            employeeNb = Integer.parseInt(employeeNbString);
-        } catch (NumberFormatException e) {
-            valid = false;
-            mEmployeeNbInput.setError(getString(R.string.error_not_a_number));
-        }
-        if (valid)
-            presenter.doAddDepartment(name, address, employeeNb);
     };
 
     @Nullable
@@ -104,7 +95,7 @@ public class AddDepartmentFragment extends MvpViewStateFragment<AddDepartmentVie
     @NonNull
     @Override
     public AddDepartmentPresenter createPresenter() {
-        return App.getBaseAppComponent().departmentComponent().addDepartmentPresenter();
+        return App.getInstance().getDepartmentComponent().addDepartmentPresenter();
     }
 
     @Override

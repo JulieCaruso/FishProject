@@ -7,11 +7,14 @@ import android.content.SharedPreferences;
 import com.example.fishapi.dependency.RestServiceModule;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.BuildConfig;
+import com.example.jcaruso.fishproject.department.dependency.DepartmentComponent;
+import com.example.jcaruso.fishproject.department.dependency.DepartmentModule;
 import com.example.jcaruso.fishproject.dependency.AppModule;
 import com.example.jcaruso.fishproject.dependency.BaseAppComponent;
 import com.example.jcaruso.fishproject.dependency.DaggerBaseAppComponent;
 import com.example.jcaruso.fishproject.login.LoginActivity;
 import com.example.jcaruso.fishproject.utils.Cache;
+import com.example.jcaruso.fishproject.utils.Validator;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -44,7 +47,7 @@ public class App extends Application {
         mBaseAppComponent = DaggerBaseAppComponent
                 .builder()
                 .restServiceModule(new RestServiceModule(BuildConfig.API_URL))
-                .appModule(new AppModule())
+                .appModule(new AppModule(getApplicationContext()))
                 .build();
 
         mSharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
@@ -59,6 +62,14 @@ public class App extends Application {
 
     public static BaseAppComponent getBaseAppComponent() {
         return sInstance.mBaseAppComponent;
+    }
+
+    public DepartmentComponent getDepartmentComponent() {
+        return sInstance.mBaseAppComponent.departmentComponent(new DepartmentModule());
+    }
+
+    public static Validator getValidator() {
+        return sInstance.mBaseAppComponent.validator();
     }
 
     public static Cache getCache() {

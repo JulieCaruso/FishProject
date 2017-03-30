@@ -2,6 +2,7 @@ package com.example.fishapi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.design.widget.TextInputEditText;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -45,6 +46,17 @@ public class Department implements Parcelable {
         this.address = in.readString();
         this.employeeNb = in.readInt();
         this.id = in.readInt();
+    }
+
+    public Department(TextInputEditText nameInput, TextInputEditText addressInput, TextInputEditText employeeNbInput) {
+        this.name = nameInput.getText().toString();
+        this.address = addressInput.getText().toString();
+        String employeeNbString = employeeNbInput.getText().toString();
+        this.employeeNb = 0;
+        try {
+            this.employeeNb = Integer.parseInt(employeeNbString);
+        } catch (NumberFormatException e) {}
+        this.id = -1;
     }
 
     public String getName() {

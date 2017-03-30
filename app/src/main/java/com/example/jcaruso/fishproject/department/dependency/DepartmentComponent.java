@@ -5,7 +5,8 @@ import com.example.jcaruso.fishproject.department.view.DepartmentsPresenter;
 
 import dagger.Subcomponent;
 
-@Subcomponent
+@DepScope
+@Subcomponent(modules = {DepartmentModule.class})
 public interface DepartmentComponent {
 
     AddDepartmentPresenter addDepartmentPresenter();

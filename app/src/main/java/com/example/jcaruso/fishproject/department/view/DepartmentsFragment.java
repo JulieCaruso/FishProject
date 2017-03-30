@@ -27,16 +27,11 @@ import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLayout, List<Department>, DepartmentsView, DepartmentsPresenter>
         implements DepartmentsView, SwipeRefreshLayout.OnRefreshListener, DepartmentsAdapter.OnStartDragListener {
-
-    @Inject
-    DepartmentsPresenter mPresenter;
 
     @BindView(R.id.departments_fab)
     FloatingActionButton mFab;
@@ -168,8 +163,7 @@ public class DepartmentsFragment extends MvpLceViewStateFragment<SwipeRefreshLay
     @NonNull
     @Override
     public DepartmentsPresenter createPresenter() {
-
-        return App.getBaseAppComponent().departmentComponent().departmentsPresenter();
+        return App.getInstance().getDepartmentComponent().departmentsPresenter();
     }
 
     @Override

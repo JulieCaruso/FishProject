@@ -21,11 +21,11 @@ public class AddDepartmentPresenter extends MvpBasePresenter<AddDepartmentView> 
         mDataService = dataService;
     }
 
-    public void doAddDepartment(String name, String address, int employeeNb) {
+    public void doAddDepartment(Department department) {
         if (isViewAttached())
             getView().showLoading();
 
-        mDataService.addDepartment(new Department(name, address, employeeNb, -1))
+        mDataService.addDepartment(department)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RestResponse<Department>>() {

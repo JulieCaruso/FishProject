@@ -9,6 +9,11 @@ public class RestResponse<T> {
     @Expose
     private T data;
 
+    public RestResponse(boolean success, T data) {
+        this.success = success;
+        this.data = data;
+    }
+
     public boolean getSuccess() {
         return success;
     }

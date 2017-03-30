@@ -55,7 +55,6 @@ public class LoginActivityTest {
                                 3),
                         isDisplayed()));
         textView.check(matches(isDisplayed()));
-
     }
 
     @Test
