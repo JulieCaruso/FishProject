@@ -21,10 +21,12 @@ import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.app.App;
 import com.example.jcaruso.fishproject.home.MainActivity;
+import com.example.jcaruso.fishproject.utils.Validator;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,38 +83,24 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
     private List<Department> mDepartments;
 
     private View.OnClickListener onClickUpdate = v -> {
-        boolean valid = true;
-        String firstname = mFirstnameInput.getText().toString();
-        String lastname = mLastnameInput.getText().toString();
-        String sex = mSexInput.getCheckedRadioButtonId() == R.id.update_profile_sex_m ?
-                getString(R.string.sex_m) : getString(R.string.sex_f);
-        int departmentId = ((Department) mDepartmentSpinner.getSelectedItem()).getId();
-        String username = mUsernameInput.getText().toString();
-        String password = mPasswordInput.getText().toString();
-        String passwordConfirmation = mPasswordConfirmationInput.getText().toString();
+        Validator validator = App.getValidator();
 
-        if (firstname.isEmpty()) {
-            valid = false;
-            mFirstnameInput.setError(v.getContext().getString(R.string.error_empty));
+        List<AbstractMap.SimpleEntry<Integer, TextInputEditText>> inputs = new ArrayList<>();
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mFirstnameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mLastnameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mUsernameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mPasswordInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mPasswordConfirmationInput));
+
+        boolean validPasswordConfirmation = validator.validateEqualPasswords(mPasswordInput, mPasswordConfirmationInput);
+
+        if (validator.validate(inputs) && validPasswordConfirmation) {
+            String sex = mSexInput.getCheckedRadioButtonId() == R.id.update_profile_sex_m ?
+                    getString(R.string.sex_m) : getString(R.string.sex_f);
+            int departmentId = ((Department) mDepartmentSpinner.getSelectedItem()).getId();
+
+            presenter.doUpdateProfile(new User(mFirstnameInput, mLastnameInput, mUsernameInput, mPasswordInput, sex, departmentId, mUser.getId()));
         }
-        if (lastname.isEmpty()) {
-            valid = false;
-            mLastnameInput.setError(v.getContext().getString(R.string.error_empty));
-        }
-        if (username.isEmpty()) {
-            valid = false;
-            mUsernameInput.setError(v.getContext().getString(R.string.error_empty));
-        }
-        if (password.isEmpty()) {
-            valid = false;
-            mPasswordInput.setError(v.getContext().getString(R.string.error_empty));
-        }
-        if (!passwordConfirmation.equals(password)) {
-            valid = false;
-            mPasswordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_password));
-        }
-        if (valid)
-            presenter.doUpdateProfile(mUser.getId(), firstname, lastname, sex, departmentId, username, password);
     };
 
     @Nullable

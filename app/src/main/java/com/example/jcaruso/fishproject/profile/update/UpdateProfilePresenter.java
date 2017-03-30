@@ -69,13 +69,14 @@ public class UpdateProfilePresenter extends MvpBasePresenter<UpdateProfileView> 
         }
     }
 
-    public void doUpdateProfile(Integer userId, String firstname, String lastname, String sex, int departmentId, String username, String password) {
+    public void doUpdateProfile(User user) {
         if (isViewAttached())
             getView().showLoadingUpdateProfile();
 
         try {
-            String hash = User.encryptSHA1(password);
-            mDataService.updateProfile(userId, new User(firstname, lastname, username, hash, sex, departmentId, "token", userId))
+            String hash = User.encryptSHA1(user.getPassword());
+            user.setPassword(hash);
+            mDataService.updateProfile(user.getId(), user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<RestResponse<User>>() {
