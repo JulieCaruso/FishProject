@@ -48,11 +48,20 @@ public class Validator {
 
     private boolean validateIsANumber(TextInputEditText input) {
         String text = input.getText().toString();
-
         try {
             Integer.parseInt(text);
         } catch (NumberFormatException e) {
             input.setError(mContext.getString(R.string.error_not_a_number));
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validateEqualPasswords(TextInputEditText input1, TextInputEditText input2) {
+        String password1 = input1.getText().toString();
+        String password2 = input2.getText().toString();
+        if (!password1.equals(password2)) {
+            input2.setError(mContext.getString(R.string.error_equal_password));
             return false;
         }
         return true;

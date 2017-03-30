@@ -76,6 +76,17 @@ public class User implements Parcelable {
         this.id = -1;
     }
 
+    public User(TextInputEditText firstnameInput, TextInputEditText lastnameInput, TextInputEditText usernameInput, TextInputEditText passwordInput, String sex, int departmentId) {
+        this.firstname = firstnameInput.getText().toString();
+        this.lastname = lastnameInput.getText().toString();
+        this.username = usernameInput.getText().toString();
+        this.password = passwordInput.getText().toString();
+        this.sex = sex;
+        this.departmentId = departmentId;
+        this.token = "token";
+        this.id = -1;
+    }
+
     public String getFirstname() {
         return firstname;
     }

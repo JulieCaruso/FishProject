@@ -13,12 +13,15 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.example.fishapi.model.Department;
+import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.R;
 import com.example.jcaruso.fishproject.app.App;
+import com.example.jcaruso.fishproject.utils.Validator;
 import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,55 +38,48 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
     @BindView(R.id.contentView)
     View mContentView;
 
+    @BindView(R.id.signin_signin_button)
+    AppCompatButton mSigninButton;
+
+    @BindView(R.id.signin_firstname)
+    TextInputEditText mFirstnameInput;
+
+    @BindView(R.id.signin_lastname)
+    TextInputEditText mLastnameInput;
+
+    @BindView(R.id.signin_sex)
+    RadioGroup mSexInput;
+
     @BindView(R.id.signin_department)
     Spinner mDepartmentSpinner;
 
-    @BindView(R.id.signin_signin_button)
-    AppCompatButton mSigninButton;
+    @BindView(R.id.signin_username)
+    TextInputEditText mUsernameInput;
+
+    @BindView(R.id.signin_password)
+    TextInputEditText mPasswordInput;
+
+    @BindView(R.id.signin_password_confirmation)
+    TextInputEditText mPasswordConfirmationInput;
 
     private ArrayAdapter<Department> mSpinnerAdapter;
 
     private View.OnClickListener onClickSignin = v -> {
-        TextInputEditText firstnameInput = (TextInputEditText) findViewById(R.id.signin_firstname);
-        TextInputEditText lastnameInput = (TextInputEditText) findViewById(R.id.signin_lastname);
-        RadioGroup sexInput = (RadioGroup) findViewById(R.id.signin_sex);
-        Spinner departmentInput = (Spinner) findViewById(R.id.signin_department);
-        TextInputEditText usernameInput = (TextInputEditText) findViewById(R.id.signin_username);
-        TextInputEditText passwordInput = (TextInputEditText) findViewById(R.id.signin_password);
-        TextInputEditText passwordConfirmationInput = (TextInputEditText) findViewById(R.id.signin_password_confirmation);
-        boolean valid = true;
+        Validator validator = App.getValidator();
 
-        String firstname = firstnameInput.getText().toString();
-        String lastname = lastnameInput.getText().toString();
-        String sex = sexInput.getCheckedRadioButtonId() == R.id.signin_sex_m ?
-                getString(R.string.sex_m) : getString(R.string.sex_f);
-        Department department = (Department) departmentInput.getSelectedItem();
-        String username = usernameInput.getText().toString();
-        String password = passwordInput.getText().toString();
-        String passwordConfirmation = passwordConfirmationInput.getText().toString();
+        List<AbstractMap.SimpleEntry<Integer, TextInputEditText>> inputs = new ArrayList<>();
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mFirstnameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mLastnameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mUsernameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mPasswordConfirmationInput));
 
-        if (firstname.isEmpty()) {
-            valid = false;
-            firstnameInput.setError(v.getContext().getString(R.string.error_empty));
+        if (validator.validate(inputs) && validator.validateEqualPasswords(mPasswordInput, mPasswordConfirmationInput)) {
+            String sex = mSexInput.getCheckedRadioButtonId() == R.id.signin_sex_m ?
+                    getString(R.string.sex_m) : getString(R.string.sex_f);
+            Department department = (Department) mDepartmentSpinner.getSelectedItem();
+
+            presenter.doSignin(new User(mFirstnameInput, mLastnameInput, mUsernameInput, mPasswordInput, sex, department.getId()));
         }
-        if (lastname.isEmpty()) {
-            valid = false;
-            lastnameInput.setError(v.getContext().getString(R.string.error_empty));
-        }
-        if (username.isEmpty()) {
-            valid = false;
-            usernameInput.setError(v.getContext().getString(R.string.error_empty));
-        }
-        if (password.isEmpty()) {
-            valid = false;
-            passwordInput.setError(v.getContext().getString(R.string.error_empty));
-        }
-        if (!passwordConfirmation.equals(password)) {
-            valid = false;
-            passwordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_paswword));
-        }
-        if (valid)
-            presenter.doSignin(firstname, lastname, sex, department.getId(), username, password);
     };
 
     @Override

@@ -26,7 +26,7 @@
 
     <string name="error_empty">Field mustn\'t be empty.</string>
     <string name="error_not_a_number">Field must be a number.</string>
-    <string name="error_equal_paswword">Password fields should be equal.</string>
+    <string name="error_equal_password">Password fields should be equal.</string>
     <string name="error_retry">An error has occurred! click here to retry</string>
 
     <string name="view_profile">View Profile</string>

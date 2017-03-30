@@ -59,13 +59,14 @@ public class SigninPresenter extends MvpBasePresenter<SigninView> {
                 });
     }
 
-    public void doSignin(String firstname, String lastname, String sex, int departmentId, String username, String password) {
+    public void doSignin(User user) {
         if (isViewAttached())
             getView().showLoading();
 
         try {
-            String hash = User.encryptSHA1(password);
-            mDataService.signin(new User(firstname, lastname, username, hash, sex, departmentId, "token", -1))
+            String hash = User.encryptSHA1(user.getPassword());
+            user.setPassword(hash);
+            mDataService.signin(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<RestResponse<User>>() {
