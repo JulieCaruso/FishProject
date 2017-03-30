@@ -109,7 +109,7 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
         }
         if (!passwordConfirmation.equals(password)) {
             valid = false;
-            mPasswordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_paswword));
+            mPasswordConfirmationInput.setError(v.getContext().getString(R.string.error_equal_password));
         }
         if (valid)
             presenter.doUpdateProfile(mUser.getId(), firstname, lastname, sex, departmentId, username, password);

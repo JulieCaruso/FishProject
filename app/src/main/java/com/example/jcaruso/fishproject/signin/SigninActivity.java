@@ -71,9 +71,12 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
         inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mFirstnameInput));
         inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mLastnameInput));
         inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mUsernameInput));
+        inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mPasswordInput));
         inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mPasswordConfirmationInput));
 
-        if (validator.validate(inputs) && validator.validateEqualPasswords(mPasswordInput, mPasswordConfirmationInput)) {
+        boolean validPasswordConfirmation = validator.validateEqualPasswords(mPasswordInput, mPasswordConfirmationInput);
+
+        if (validator.validate(inputs) && validPasswordConfirmation) {
             String sex = mSexInput.getCheckedRadioButtonId() == R.id.signin_sex_m ?
                     getString(R.string.sex_m) : getString(R.string.sex_f);
             Department department = (Department) mDepartmentSpinner.getSelectedItem();

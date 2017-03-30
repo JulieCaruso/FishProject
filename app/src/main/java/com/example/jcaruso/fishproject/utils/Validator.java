@@ -61,6 +61,7 @@ public class Validator {
         String password1 = input1.getText().toString();
         String password2 = input2.getText().toString();
         if (!password1.equals(password2)) {
+            input1.setError(mContext.getString(R.string.error_equal_password));
             input2.setError(mContext.getString(R.string.error_equal_password));
             return false;
         }
