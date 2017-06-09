@@ -89,18 +89,6 @@ public class Department implements Parcelable {
         out.writeInt(this.id);
     }
 
-    public static List<Department> getDepartments() {
-        List<Department> departments = new ArrayList<>();
-        departments.add(new Department("ADM", "5 rue du truc", 25, 1));
-        departments.add(new Department("MDA", "5 rue du chouette", 0, 3));
-        departments.add(new Department("DMA", "5 rue du machin", 1, 2));
-        departments.add(new Department("DAM", "5 rue du cho", 8, 2));
-        departments.add(new Department("MAD", "5 rue du chou", 55, 88));
-        departments.add(new Department("MMM", "5 rue du c", 8, 1));
-        departments.add(new Department("AMD", "5 rue du ch", 0, 3));
-        return departments;
-    }
-
     @Override
     public String toString() {
         return getName();

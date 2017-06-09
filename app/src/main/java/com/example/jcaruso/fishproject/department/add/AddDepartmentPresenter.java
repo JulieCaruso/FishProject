@@ -3,22 +3,23 @@ package com.example.jcaruso.fishproject.department.add;
 import com.example.fishapi.model.Department;
 import com.example.fishapi.model.RestResponse;
 import com.example.jcaruso.fishproject.service.DataService;
+import com.example.jcaruso.fishproject.utils.BaseSchedulerProvider;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class AddDepartmentPresenter extends MvpBasePresenter<AddDepartmentView> {
 
     private DataService mDataService;
+    private BaseSchedulerProvider mSchedulerProvider;
 
     @Inject
-    public AddDepartmentPresenter(DataService dataService) {
+    public AddDepartmentPresenter(DataService dataService, BaseSchedulerProvider schedulerProvider) {
         mDataService = dataService;
+        mSchedulerProvider = schedulerProvider;
     }
 
     public void doAddDepartment(Department department) {
@@ -26,8 +27,8 @@ public class AddDepartmentPresenter extends MvpBasePresenter<AddDepartmentView> 
             getView().showLoading();
 
         mDataService.addDepartment(department)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Observer<RestResponse<Department>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

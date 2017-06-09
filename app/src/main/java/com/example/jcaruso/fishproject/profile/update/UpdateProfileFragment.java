@@ -26,6 +26,8 @@ import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +101,11 @@ public class UpdateProfileFragment extends MvpViewStateFragment<UpdateProfileVie
                     getString(R.string.sex_m) : getString(R.string.sex_f);
             int departmentId = ((Department) mDepartmentSpinner.getSelectedItem()).getId();
 
-            presenter.doUpdateProfile(new User(mFirstnameInput, mLastnameInput, mUsernameInput, mPasswordInput, sex, departmentId, mUser.getId()));
+            try {
+                presenter.doUpdateProfile(new User(mFirstnameInput, mLastnameInput, mUsernameInput, mPasswordInput, sex, departmentId, mUser.getId()));
+            } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+                showError(e);
+            }
         }
     };
 

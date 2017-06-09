@@ -65,33 +65,36 @@ public class User implements Parcelable {
         this.id = in.readInt();
     }
 
-    public User(TextInputEditText usernameInput, TextInputEditText passwordInput) {
+    public User(TextInputEditText usernameInput, TextInputEditText passwordInput) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         this.firstname = null;
         this.lastname = null;
         this.username = usernameInput.getText().toString();
-        this.password = passwordInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        this.password = encryptSHA1(password);
         this.sex = null;
         this.departmentId = -1;
         this.token = null;
         this.id = -1;
     }
 
-    public User(TextInputEditText firstnameInput, TextInputEditText lastnameInput, TextInputEditText usernameInput, TextInputEditText passwordInput, String sex, int departmentId) {
+    public User(TextInputEditText firstnameInput, TextInputEditText lastnameInput, TextInputEditText usernameInput, TextInputEditText passwordInput, String sex, int departmentId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         this.firstname = firstnameInput.getText().toString();
         this.lastname = lastnameInput.getText().toString();
         this.username = usernameInput.getText().toString();
-        this.password = passwordInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        this.password = encryptSHA1(password);
         this.sex = sex;
         this.departmentId = departmentId;
         this.token = "token";
         this.id = -1;
     }
 
-    public User(TextInputEditText firstnameInput, TextInputEditText lastnameInput, TextInputEditText usernameInput, TextInputEditText passwordInput, String sex, int departmentId, int id) {
+    public User(TextInputEditText firstnameInput, TextInputEditText lastnameInput, TextInputEditText usernameInput, TextInputEditText passwordInput, String sex, int departmentId, int id) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         this.firstname = firstnameInput.getText().toString();
         this.lastname = lastnameInput.getText().toString();
         this.username = usernameInput.getText().toString();
-        this.password = passwordInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        this.password = encryptSHA1(password);
         this.sex = sex;
         this.departmentId = departmentId;
         this.token = "token";
@@ -112,10 +115,6 @@ public class User implements Parcelable {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String hash) {
-        this.password = hash;
     }
 
     public String getSex() {

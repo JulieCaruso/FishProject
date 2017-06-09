@@ -19,6 +19,8 @@ import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,11 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         inputs.add(new AbstractMap.SimpleEntry<>(Validator.NOT_EMPTY, mPasswordInput));
 
         if (validator.validate(inputs))
-            presenter.doLogin(new User(mUsernameInput, mPasswordInput));
+            try {
+                presenter.doLogin(new User(mUsernameInput, mPasswordInput));
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+                showError(e);
+            }
         else
             showError(new Exception("Wrong credentials"));
     };

@@ -21,6 +21,8 @@ import com.example.jcaruso.fishproject.utils.ViewUtils;
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,11 @@ public class SigninActivity extends MvpViewStateActivity<SigninView, SigninPrese
                     getString(R.string.sex_m) : getString(R.string.sex_f);
             Department department = (Department) mDepartmentSpinner.getSelectedItem();
 
-            presenter.doSignin(new User(mFirstnameInput, mLastnameInput, mUsernameInput, mPasswordInput, sex, department.getId()));
+            try {
+                presenter.doSignin(new User(mFirstnameInput, mLastnameInput, mUsernameInput, mPasswordInput, sex, department.getId()));
+            } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+                showError(e);
+            }
         }
     };
 
