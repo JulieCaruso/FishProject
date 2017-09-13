@@ -1,5 +1,7 @@
 package com.example.jcaruso.fishproject.login;
 
+import android.content.Context;
+
 import com.hannesdorfmann.mosby.mvp.MvpView;
 
 public interface LoginView extends MvpView {
@@ -11,5 +13,7 @@ public interface LoginView extends MvpView {
     void showLoading();
 
     void loginSuccessful();
+
+    Context getContext();
 
 }

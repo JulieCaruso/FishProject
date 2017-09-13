@@ -3,6 +3,7 @@ package com.example.jcaruso.fishproject.dependency;
 import android.content.Context;
 
 import com.example.fishapi.service.RestService;
+import com.example.jcaruso.fishproject.auth.AuthenticatorManager;
 import com.example.jcaruso.fishproject.service.DataService;
 import com.example.jcaruso.fishproject.utils.BaseSchedulerProvider;
 import com.example.jcaruso.fishproject.utils.Cache;
@@ -52,5 +53,11 @@ public class AppModule {
     @Provides
     public BaseSchedulerProvider provideSchedulerProvider() {
         return new SchedulerProvider();
+    }
+
+    @Singleton
+    @Provides
+    public AuthenticatorManager provideAuthenticatorManager() {
+        return new AuthenticatorManager(mContext);
     }
 }

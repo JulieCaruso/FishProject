@@ -1,6 +1,7 @@
 package com.example.jcaruso.fishproject.dependency;
 
 import com.example.fishapi.dependency.RestServiceModule;
+import com.example.jcaruso.fishproject.auth.AuthenticatorManager;
 import com.example.jcaruso.fishproject.department.dependency.DepartmentComponent;
 import com.example.jcaruso.fishproject.department.dependency.DepartmentModule;
 import com.example.jcaruso.fishproject.home.MainActivity;
@@ -34,4 +35,6 @@ public interface BaseAppComponent {
     SigninComponent signinComponent();
 
     ProfileComponent profileComponent();
+
+    AuthenticatorManager authenticatorManager();
 }

@@ -41,8 +41,10 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                         User user = restResponse.getData();
                         if (user == null && isViewAttached())
                             getView().showError(new Throwable("user null"));
-                        else
+                        else {
                             App.setUser(user);
+                            App.getAuthenticatorManager().createAccount(user);
+                        }
                     }
 
                     @Override

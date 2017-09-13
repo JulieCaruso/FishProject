@@ -1,5 +1,6 @@
 package com.example.jcaruso.fishproject.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -131,6 +132,11 @@ public class LoginActivity extends MvpViewStateActivity<LoginView, LoginPresente
         mLoginButton.setVisibility(View.VISIBLE);
         animateToVisible(mLoginButton);
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override

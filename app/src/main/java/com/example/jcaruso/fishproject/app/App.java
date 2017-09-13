@@ -1,12 +1,17 @@
 package com.example.jcaruso.fishproject.app;
 
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.fishapi.dependency.RestServiceModule;
 import com.example.fishapi.model.User;
 import com.example.jcaruso.fishproject.BuildConfig;
+import com.example.jcaruso.fishproject.auth.AuthenticatorManager;
+import com.example.jcaruso.fishproject.auth.AuthenticatorService;
 import com.example.jcaruso.fishproject.department.dependency.DepartmentComponent;
 import com.example.jcaruso.fishproject.department.dependency.DepartmentModule;
 import com.example.jcaruso.fishproject.dependency.AppModule;
@@ -17,11 +22,15 @@ import com.example.jcaruso.fishproject.utils.Cache;
 import com.example.jcaruso.fishproject.utils.Validator;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 public class App extends Application {
 
     public static final String USER = "SharedPreferences.USER";
+    public static final String ACCOUNT_TYPE = "fish-project.account";
+    public static final String AUTH_TOKEN_TYPE = "fish-project.auth-token";
 
     private static App sInstance;
     private BaseAppComponent mBaseAppComponent;
@@ -29,6 +38,8 @@ public class App extends Application {
     public Cache mCache;
     @Inject
     public Gson mGson;
+    @Inject
+    public AuthenticatorManager mAuthenticatorManager;
     private SharedPreferences mSharedPreferences;
 
     public static App getInstance() {
@@ -51,6 +62,20 @@ public class App extends Application {
                 .build();
 
         mSharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+
+        mAuthenticatorManager = mBaseAppComponent.authenticatorManager();
+
+        mAuthenticatorManager.getAuthToken(future -> {
+            try {
+                Log.d("azerty", "result: " + future.getResult());
+            } catch (OperationCanceledException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (AuthenticatorException e) {
+                e.printStackTrace();
+            }
+        });
 
         // launch initial activity : LoginActivity if not connected, MainActivity otherwise
         if (getUser() == null) {
@@ -82,6 +107,10 @@ public class App extends Application {
 
     public static SharedPreferences getSharedPreferences() {
         return sInstance.mSharedPreferences;
+    }
+
+    public static AuthenticatorManager getAuthenticatorManager() {
+        return sInstance.mAuthenticatorManager;
     }
 
     public static SharedPreferences.Editor editSharedPreferences() {
